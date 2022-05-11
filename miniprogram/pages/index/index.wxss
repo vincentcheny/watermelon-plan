@@ -1,0 +1,32 @@
+@import "../../common/index.wxss";
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50rpx;
+}
+
+.environment {
+  color: rgba(0, 0, 0, 0.4);
+  margin-top: 25%;
+}
+
+.btn {
+    margin-top: 500rpx;
+}
+
+.exitBtn {
+    background-color: #df9d9d ;
+    border-radius: 10rpx;
+}
+
+.btnText {
+    color: white;
+}
+
+@media (prefers-color-scheme: dark) {
+    .exitBtn {
+        background-color: #c77676 ;
+        border-radius: 10rpx;
+    }
+}

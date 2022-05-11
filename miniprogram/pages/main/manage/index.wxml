@@ -1,0 +1,54 @@
+<!--pages/main/manage/index.wxml-->
+<view class="integral">🍭：{{userIntegral || 0}}</view>
+<view class="container" data-weui-theme="{{theme}}">
+    <view wx:for="{{attribute}}" wx:for-item="attrItem" wx:key="*this" class="box">
+        <view wx:for="{{type}}" wx:for-item="typeItem" wx:key="*this">
+            <view class="divider" wx:if="{{typeItem=='weekly'}}"></view>
+            <view class="row">
+                <view class="row_title row_width_content">{{typeItem=='daily'?'每日':typeItem=='weekly'?'每周':'其它'}}{{attrItem=='mission'?'任务':'奖励'}}</view>
+                <view class="row_title row_width_number">积分</view>
+                <view class="row_title row_width_action">操作</view>
+            </view>
+            <view class="divider"></view>
+            <view wx:for="{{record}}" wx:key="_id">
+                <form catchsubmit="submit" data-id="{{item._id}}" data-score="{{item.score}}" data-attr="{{attrItem}}" data-type="{{item.type}}" data-name="{{item.name}}" wx:if="{{item.type == typeItem && item.attr == attrItem}}">
+                    <view class="row row_detail">
+                        <view class="row_width_content" bindtap="enableEdit" data-type="Name" data-id="{{item._id}}">
+                            <view wx:if="{{!item.editName}}">{{item.name}}</view>
+                            <input name="name" data-name="name" wx:if="{{item.editName}}" bindblur="bindBlur" placeholder="{{item.name}}" focus />
+                        </view>
+                        <view class="row_width_number" bindtap="enableEdit" data-type="Score" data-id="{{item._id}}">
+                            <view wx:if="{{!item.editScore}}">{{item.score}}</view>
+                            <input name="score" data-name="score" wx:if="{{item.editScore}}" bindblur="bindBlur" placeholder="{{item.score}}" focus />
+                        </view>
+                        <view class="row_width_action">
+                            <button form-type="submit" style="width: 40%;display:inline-block;margin-right:10rpx;" class="button">
+                                更新
+                            </button>
+                            <button style="width: 40%;display:inline-block;" type="warn" class="button">
+                                删除
+                            </button>
+                        </view>
+                    </view>
+                </form>
+            </view>
+            <form catchsubmit="add" data-attr="{{attrItem}}" data-type="{{typeItem}}">
+                <view class="row row_detail">
+                    <view class="row_width_content">
+                        <input name="name" data-name="name" placeholder="empty" />
+                    </view>
+                    <view class="row_width_number">
+                        <input name="score" data-name="score" placeholder="empty" />
+                    </view>
+                    <view class="row_width_action">
+                        <button form-type="submit" style="width: 40%;display:inline-block;margin-right:10rpx;" class="button">
+                            添加
+                        </button>
+                    </view>
+                </view>
+            </form>
+            <view class="divider"></view>
+        </view>
+    </view>
+
+</view>

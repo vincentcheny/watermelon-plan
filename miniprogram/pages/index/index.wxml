@@ -1,0 +1,5 @@
+<!--index.wxml-->
+<view class="container" data-weui-theme="{{theme}}">
+    <button class="btn" type="primary" open-type="getUserInfo" bindtap="getUserProfile"> 微信登录 </button>
+    <!-- <navigator class="btn exitBtn" open-type="exit" target="miniProgram"><button class="btnText">退出</button></navigator> -->
+</view>

@@ -1,0 +1,67 @@
+/* pages/achievement/index.wxss */
+@import "../../../common/index.wxss";
+
+.achiBox {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.achiItem {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f1f1f1;
+    border-radius: 20rpx;
+    margin-top: 20rpx;
+    margin-bottom: 30rpx;
+}
+
+.achiItem:not(:nth-child(2n)) {
+    margin-right: 4%;
+}
+
+.achiImg {
+    margin-top: 20rpx;
+    height: 170rpx;
+}
+
+.achiContent {
+    font-size: 30rpx;
+    margin: 0 20rpx;
+    padding-top: 10rpx;
+    padding-bottom: 10rpx;
+}
+
+.achiTitle {
+    font-size: 36rpx;
+    padding-left: 15rpx;
+    padding-right: 15rpx;
+
+}
+
+.achiBar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.progress {
+    width:100%;
+    margin-left: 20rpx;
+}
+
+@media (prefers-color-scheme: dark) {
+    .achiItem {
+        width: 48%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #555555;
+        border-radius: 15rpx;
+        margin-top: 20rpx;
+        margin-bottom: 30rpx;
+    }
+}

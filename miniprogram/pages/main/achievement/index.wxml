@@ -1,0 +1,15 @@
+<!--pages/achievement/index.wxml-->
+<view class="container" data-weui-theme="{{theme}}">
+    <view class="achiBox">
+        <view class="achiItem" wx:for="{{achievements}}" wx:for-item="achiItem" wx:key="_id">
+            <image class="achiImg" mode="aspectFit" wx:if="{{achiItem.done}}" src="{{done_pic}}"></image>
+            <image class="achiImg" mode="aspectFit" wx:if="{{!achiItem.done}}" src="{{undone_pic}}"></image>
+            <!-- <view class="divider"></view> -->
+            <view class="achiTitle">{{achiItem.desc}}</view>
+            <view class="achiBar">
+                <progress percent="{{achiItem.percent}}" activeColor="#57C3C2" backgroundColor="#C6E6E8" class="progress" duration="10" active border-radius="10" />
+                <view class="achiContent">{{achiItem.progress}}</view>
+            </view>
+        </view>
+    </view>
+</view>

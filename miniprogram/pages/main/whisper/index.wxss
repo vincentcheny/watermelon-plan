@@ -1,0 +1,17 @@
+/* pages/whisper/index.wxss */
+@import "../../../common/index.wxss";
+
+.textwarp {
+    width: 90%;
+    border-style:solid;
+    border-width: thin;
+    border-radius: 10px;
+}
+
+.whisperText {
+    margin: 30rpx;
+    margin-bottom: 60rpx;
+    font-size: 40rpx;
+    text-align: left;
+    width: 92%;
+}

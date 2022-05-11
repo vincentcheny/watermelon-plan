@@ -1,0 +1,25 @@
+/* pages/main/index.wxss */
+@import "../../common/index.wxss";
+
+.elementBox {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between
+}
+
+.element {
+    width: 30%;
+    font-size: 36rpx;
+    text-align: center;
+    margin-top: 50rpx;
+}
+
+.element:nth-child(3n+1) {
+    margin-left: 2%;
+}
+
+.element_img {
+    width: 80%;
+    height: 80px;
+}

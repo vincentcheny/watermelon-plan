@@ -1,0 +1,7 @@
+/* pages/exchange/index.wxss */
+@import "../../common/index.wxss";
+
+.charts-box {
+    width: 100%;
+    height: 300px;
+  }

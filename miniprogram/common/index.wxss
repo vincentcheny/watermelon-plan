@@ -1,0 +1,142 @@
+page {
+  padding-top: 54rpx;
+  background-color: #e9e9e9;
+  padding-bottom: 60rpx;
+}
+
+.title {
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #000000;
+  font-size: 44rpx;
+  margin-bottom: 40rpx;
+}
+
+.top_tip {
+  font-size: 28rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #888888;
+  margin-bottom: 28rpx;
+}
+
+.divider {
+  height: 1rpx;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.box {
+  text-align: center;
+  background-color: white;
+  margin-top: 30rpx;
+  padding-top: 17rpx;
+  width: 95%;
+  border-radius: 10px;
+}
+
+.code_box_title {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 26rpx;
+  margin-bottom: 20rpx;
+  text-align: left;
+}
+
+.row {
+  display: flex;
+}
+
+.image_detail {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.row_title {
+  font-size: 36rpx;
+  color: rgba(0, 0, 0, 0.5);
+  padding: 20rpx 0;
+}
+
+.row_detail{
+  height: 60px;
+  font-size: 36rpx;
+  align-items: center;
+}
+
+.row_width_content {
+  width: 50%;
+}
+
+.row_width_number {
+  width: 10%;
+}
+
+.row_width_action {
+  width: 40%;
+}
+
+.button {
+  /* width: 120rpx; */
+  width: fit-content;
+  padding: 0 15rpx;
+  text-align: center;
+  margin: 0 auto 0 auto;
+  height: 60rpx;
+  color: white;
+  border-radius: 5px;
+  line-height: 60rpx;
+  background-color: #07c160;
+}
+
+.button_disabled {
+  color: #555555;
+  background-color: #c7cac8;
+}
+
+.integral {
+    width: 95%;
+    text-align: right;
+    margin-top: 10rpx;
+    font-size: 26rpx;
+}
+
+@media (prefers-color-scheme: dark) {
+  page {
+    padding-top: 54rpx;
+    background-color: #3f3a3a;
+    padding-bottom: 60rpx;
+  }
+
+  .title {
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #f6f6f6;
+    font-size: 44rpx;
+    margin-top: 40rpx;
+    margin-bottom: 40rpx;
+  }
+
+  .box {
+    text-align: center;
+    background-color: #555555;
+    margin-top: 30rpx;
+    padding-top: 17rpx;
+    width: 95%;
+    border-radius: 10px;
+  }
+
+  .row_title {
+    font-size: 36rpx;
+    color: #b8b8b8;
+    padding: 20rpx 0;
+  }
+
+  .divider {
+    height: 1rpx;
+    width: 100%;
+    background-color: #818181;
+  }
+
+  
+}

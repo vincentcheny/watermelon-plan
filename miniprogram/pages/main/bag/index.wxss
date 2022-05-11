@@ -1,0 +1,14 @@
+/* pages/bag/index.wxss */
+@import "../../../common/index.wxss";
+
+.row_width_content {
+    width: 30%;
+}
+
+.row_width_number {
+    width: 50%;
+}
+
+.row_width_action {
+    width: 20%;
+}

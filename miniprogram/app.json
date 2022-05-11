@@ -1,0 +1,57 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/mission/index",
+        "pages/exchange/index",
+        "pages/profile/index",
+        "pages/main/index",
+        "pages/main/bag/index",
+        "pages/main/whisper/index",
+        "pages/main/achievement/index",
+        "pages/main/game/index",
+        "pages/main/manage/index"
+    ],
+    "window": {
+        "backgroundColor": "@backgroundColor",
+        "backgroundTextStyle": "@backgroundTextStyle",
+        "navigationBarBackgroundColor": "@navigationBarBackgroundColor",
+        "navigationBarTitleText": "小西瓜🍉养成计划",
+        "navigationBarTextStyle": "@navigationBarTextStyle"
+    },
+    "sitemapLocation": "sitemap.json",
+    "themeLocation": "demo.theme.json",
+    "darkmode": true,
+    "style": "v2",
+    "tabBar": {
+        "color": "@tabBarColor",
+        "selectedColor": "@tabBarSelectedColor",
+        "borderStyle": "@tabBarBorderStyle",
+        "backgroundColor": "@tabBarBackgroundColor",
+        "list": [
+            {
+                "selectedIconPath": "image/icon_component_HL.png",
+                "iconPath": "@iconPathComponent",
+                "pagePath": "pages/main/index",
+                "text": "首页"
+            },
+            {
+                "selectedIconPath": "image/icon_component_HL.png",
+                "iconPath": "@iconPathComponent",
+                "pagePath": "pages/mission/index",
+                "text": "任务"
+            },
+            {
+                "selectedIconPath": "image/icon_component_HL.png",
+                "iconPath": "@iconPathComponent",
+                "pagePath": "pages/exchange/index",
+                "text": "兑换"
+            },
+            {
+                "selectedIconPath": "image/icon_component_HL.png",
+                "iconPath": "@iconPathComponent",
+                "pagePath": "pages/profile/index",
+                "text": "我的"
+            }
+        ]
+    }
+}

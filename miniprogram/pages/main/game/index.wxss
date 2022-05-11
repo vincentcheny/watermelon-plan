@@ -1,0 +1,31 @@
+/* pages/game/index.wxss */
+@import "../../../common/index.wxss";
+
+.btn {
+    margin-top: 80rpx;
+}
+
+.title {
+    margin-top: 25rpx;
+    margin-bottom: 25rpx;
+}
+
+.main_text {
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #000000;
+    font-size: 34rpx;
+    margin-left: 60rpx;
+    margin-right: 60rpx;
+}
+
+@media (prefers-color-scheme: dark) {
+    .main_text {
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #f6f6f6;
+        font-size: 34rpx;
+        margin-left: 60rpx;
+        margin-right: 60rpx;
+    }
+}
