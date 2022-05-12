@@ -1,6 +1,31 @@
 /* pages/achievement/index.wxss */
 @import "../../../common/index.wxss";
 
+@font-face {
+    font-family: 'iconfont';
+    /* project id 3394868 */
+    src: url('');
+    src: url('?#iefix') format('embedded-opentype'),
+        url('//at.alicdn.com/t/font_3394868_jc3hermbies.woff2') format('woff2'),
+        url('//at.alicdn.com/t/font_3394868_jc3hermbies.woff') format('woff'),
+        url('//at.alicdn.com/t/font_3394868_jc3hermbies.ttf') format('truetype'),
+        url('#iconfont') format('svg');
+}
+
+iconfont {
+    font-family: 'iconfont';
+    color: red;
+    font-size: 30px;
+}
+
+.icon-achievement-undone::before {
+    content: '\e600';
+}
+
+.icon-achievement-done::before {
+    content: '\e611';
+}
+
 .achiBox {
     width: 90%;
     display: flex;
@@ -49,8 +74,14 @@
 }
 
 .progress {
-    width:100%;
+    width: 100%;
     margin-left: 20rpx;
+}
+
+.infoPopup {
+    margin: 150rpx 30rpx;
+    color: black;
+    text-align: center;
 }
 
 @media (prefers-color-scheme: dark) {

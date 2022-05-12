@@ -5,9 +5,9 @@
         {{userName}}の积分：{{userIntegral || 0}}
     </view>
     <view class="elementBox">
-        <view wx:for="{{homeElement}}" wx:for-item="typeItem" wx:key="name" class="element">
-            <view bindtap="jumpPage" data-page="{{dest[typeItem.name]}}">
-                <image class="element_img" mode="aspectFit" src="{{typeItem.pic}}"></image>
+        <view wx:for="{{homeElement}}" wx:for-item="typeItem" wx:key="index" class="element">
+            <view bindtap="jumpPage" data-page="{{'main/'+index}}">
+                <image class="element_img" mode="aspectFit" src="{{typeItem.icon}}"></image>
                 <br/>
                 {{typeItem.name}}
             </view>

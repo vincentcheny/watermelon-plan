@@ -6,16 +6,20 @@ Page({
      */
     data: {
         theme: 'white',
-        white_done_pic: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/white/white_achievement_done.svg',
-        white_undone_pic: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/white/white_achievement_undone.svg',
-        black_done_pic: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/white/white_achievement_cover.svg',
-        black_undone_pic: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/white/white_achievement_cover.svg'
+        icon_location: '/../image/theme',
+        showIntro: false,
+        msg: undefined
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
+        if (options.theme) {
+            this.setData({
+                theme: options.theme
+            })
+        }
     },
 
     /**
@@ -84,13 +88,30 @@ Page({
                             }
                         });
                     that.setData({
-                        done_pic: that.data[that.data.theme + '_done_pic'],
-                        undone_pic: that.data[that.data.theme + '_undone_pic']
+                        undone_icon: [that.data.icon_location, that.data.theme, 'achievement_undone.svg'].join('/'),
+                        done_icon: [that.data.icon_location, that.data.theme, 'achievement_done'].join('/')
                     });
                 }
             });
     },
 
+    press(e) {
+        for (var i in this.data.achievements) {
+            if (this.data.achievements[i]._id == e.currentTarget.dataset.id) {
+                this.setData({
+                    showIntro: true,
+                    msg: '《'+this.data.achievements[i].title+'》\n\n'+this.data.achievements[i].prize ?? '？？？'
+                });
+            }
+        }
+        
+    },
+
+    exit(e) {
+        this.setData({
+            showIntro: false
+        });
+    },
     /**
      * 生命周期函数--监听页面隐藏
      */

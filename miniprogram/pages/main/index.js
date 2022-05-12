@@ -4,32 +4,28 @@ const {
 
 Page({
     data: {
-        theme: 'light',
+        theme: 'white',
         envList,
         selectedEnv: envList[0],
         userIntegral: 0,
         userName: undefined,
         openid: undefined,
         userAvatar: undefined,
-        homeElement: [
-            {name: "成就", pic: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/white/white_achievement_cover.svg'},
-            {name: "礼品", pic: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/white/white_bag_cover.svg'},
-            {name: "悄悄话", pic: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/white/white_whisper_cover.svg'},
-            {name: "游戏", pic: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/white/white_game_cover.svg'},
-            {name: "管理", pic: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/white/white_game_cover.svg'},
-        ],
-        dest: {
-            "成就": "main/achievement",
-            "礼品": "main/bag",
-            "悄悄话": "main/whisper",
-            "游戏": "main/game",
-            "管理": "main/manage"
-        }
+        icon_location: '/../image/theme',
+        homeElement: {
+            'achievement': {name: "成就"},
+            'bag': {name: "奖励"},
+            'whisper': {name: "悄悄话"},
+            'game': {name: "游戏"},
+            'manage': {name: "管理"},
+        },
     },
 
-    onLoad() {
+    onLoad(options) {
         this.setData({
-            theme: wx.getSystemInfoSync().theme || 'light'
+            theme: options.theme || 'white',
+            openid: wx.getStorageSync("openid"),
+            userName: wx.getStorageSync("user_name"),
         });
         if (wx.onThemeChange) {
             wx.onThemeChange(({
@@ -40,21 +36,21 @@ Page({
                 })
             })
         };
-        this.setData({
-            openid: wx.getStorageSync("openid"),
-            userName: wx.getStorageSync("user_name"),
-            // userAvatar: undefined
-        })
     },
     
     onShow: function () {
         this.setData({
             userIntegral: wx.getStorageSync("integral")
-        })
+        });
+        // 每次打开页面时根据theme更新图标
+        for (let name in this.data.homeElement) {
+            this.setData({
+                ['homeElement.'+name+'.icon']: [this.data.icon_location, this.data.theme, name+'_cover.svg'].join('/'),
+            });
+        };
     },
 
     jumpPage(e) {
-        console.log("jump to "+e.currentTarget.dataset.page);
         wx.navigateTo({
             url: `/pages/${e.currentTarget.dataset.page}/index?envId=${this.data.selectedEnv.envId}`,
         });

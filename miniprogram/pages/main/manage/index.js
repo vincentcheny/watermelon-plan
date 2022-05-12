@@ -85,7 +85,7 @@ Page({
                             });
                             if (that.data.record == undefined) {
                                 that.setData({
-                                    type: ['daily', 'weekly','others'],
+                                    type: ['daily', 'weekly', 'others'],
                                     record: record,
                                     attribute: new Array(collectionName_copy)
                                 });
@@ -109,7 +109,7 @@ Page({
         for (var i in this.data.record) {
             if (this.data.record[i]._id == e.currentTarget.dataset.id) {
                 this.setData({
-                    ['record['+i+'].edit'+e.currentTarget.dataset.type]: true
+                    ['record[' + i + '].edit' + e.currentTarget.dataset.type]: true
                 });
             }
         }
@@ -119,7 +119,7 @@ Page({
         for (var i in this.data.record) {
             if (this.data.record[i]._id == e.currentTarget.dataset.id) {
                 this.setData({
-                    ['record['+i+'].name']: e.detail.value
+                    ['record[' + i + '].name']: e.detail.value
                 });
             }
         }
@@ -141,7 +141,7 @@ Page({
                         title: '提示',
                         content: '更新成功！',
                         showCancel: false
-                      });
+                    });
                 },
                 fail: (res) => {
                     console.error(res);
@@ -153,42 +153,77 @@ Page({
         if (!e.detail.value.name || !e.detail.value.score) {
             wx.showModal({
                 title: '提示',
-                content: '数据未填写完整'
-              })
+                content: '数据未填写完整',
+                showCancel: false,
+            })
             return;
         }
         const db = wx.cloud.database({
             env: this.data.selectedEnv.envId
         })
         db.collection(e.currentTarget.dataset.attr)
-        .add({
-            data: {
-                name: e.detail.value.name,
-                score: e.detail.value.score,
-                type: e.currentTarget.dataset.type
-            },
-            success: (res) => {
-                wx.showModal({
-                    title: '提示',
-                    content: '数据添加成功',
-                    success: (res) => {
-                        wx.redirectTo({
-                            url: `/pages/main/manage/index`
-                        });
-                    },
-                    fail: (res)=>{
-                        console.log(res);
-                    }
-                  });
-            },
-            fail: (res) => {
-                wx.showModal({
-                    title: '提示',
-                    content: res
-                  })
-            }
-        });
+            .add({
+                data: {
+                    name: e.detail.value.name,
+                    score: e.detail.value.score,
+                    type: e.currentTarget.dataset.type
+                },
+                success: (res) => {
+                    wx.showModal({
+                        title: '提示',
+                        content: '数据添加成功',
+                        showCancel: false,
+                        success: (res) => {
+                            wx.redirectTo({
+                                url: `/pages/main/manage/index`
+                            });
+                        },
+                        fail: (res) => {
+                            console.log(res);
+                        }
+                    });
+                },
+                fail: (res) => {
+                    wx.showModal({
+                        title: '提示',
+                        content: res,
+                        showCancel: false
+                    })
+                }
+            });
     },
+
+    delete(e) {
+        const db = wx.cloud.database({
+            env: this.data.selectedEnv.envId
+        })
+        db.collection(e.currentTarget.dataset.attr)
+            .doc(e.currentTarget.dataset.id)
+            .remove({
+                success: function (res) {
+                    let title;
+                    let content;
+                    if (res.stats.removed == 1) {
+                        title = '提示';
+                        content = '删除成功';
+                    } else {
+                        title = '无记录或异常';
+                        content = JSON.stringify(res);
+                    }
+                    wx.showModal({
+                        title: title,
+                        content: content,
+                        showCancel: false,
+                        success: () => {
+                            wx.redirectTo({
+                                url: `/pages/main/manage/index`
+                            });
+                        }
+                    })
+                }
+            })
+    },
+
     /**
      * 生命周期函数--监听页面显示
      */

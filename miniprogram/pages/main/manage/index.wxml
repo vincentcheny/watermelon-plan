@@ -25,7 +25,7 @@
                             <button form-type="submit" style="width: 40%;display:inline-block;margin-right:10rpx;" class="button">
                                 更新
                             </button>
-                            <button style="width: 40%;display:inline-block;" type="warn" class="button">
+                            <button bindtap="delete" data-attr="{{attrItem}}" data-id="{{item._id}}" style="width: 40%;display:inline-block;" type="warn" class="button">
                                 删除
                             </button>
                         </view>
