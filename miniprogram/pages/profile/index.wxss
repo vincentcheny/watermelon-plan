@@ -1,2 +1,16 @@
 /* pages/query/index.wxss */
+
+@import '../../components/common.wxss';
 @import "../../common/index.wxss";
+
+.weui-slidecells {
+    margin:8px;
+  }
+  
+  .weui-slidecell {
+    background-color: var(--weui-BG-2);
+    border-radius: 8px;
+    padding: 26px;
+    line-height: 1.4;
+    font-size: 17px;
+  }

@@ -53,5 +53,8 @@
                 "text": "我的"
             }
         ]
+    },
+    "useExtendedLib": {
+        "weui": true
     }
 }

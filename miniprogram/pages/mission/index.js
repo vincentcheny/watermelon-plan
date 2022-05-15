@@ -12,6 +12,8 @@ Page({
         theme: 'light',
         selectedEnv: envList[0],
         chartData: {},
+        type: [],
+        records: [],
         //您可以通过修改 config-ucharts.js 文件中下标为 ['line'] 的节点来配置全局默认参数，如都是默认参数，此处可以不传 opts 。实际应用过程中 opts 只需传入与全局默认参数中不一致的【某一个属性】即可实现同类型的图表显示不同的样式，达到页面简洁的需求。
         opts: {
             color: ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4", "#ea7ccc"],
@@ -49,10 +51,10 @@ Page({
                 })
             })
         };
-        this.refreshExchangeList();
+        this.refreshList('mission');
     },
 
-    refreshExchangeList() {
+    refreshList(collectionName) {
         wx.showLoading({
             title: '读取任务列表',
         });
@@ -84,34 +86,34 @@ Page({
                         },
                         data: {
                             type: 'getCollection',
-                            name: 'mission'
+                            name: collectionName
                         }
                     })
                     .then((res) => {
-                        var record = new Array();
+                        var records = new Array();
                         var type_set = new Set();
-                        var mission_name = undefined;
-                        for (var mission of res.result.data) {
-                            type_set.add(mission.type);
-                            mission_name = mission.type == 'daily' ? resp.result.data[0].daily_mission : resp.result.data[0].weekly_mission
-                            record.push({
-                                _id: mission._id,
-                                mission_content: mission.name,
-                                mission_score: mission.score,
-                                type: mission.type,
-                                is_finished: mission_name[mission._id] ?? false
+                        var data_name = undefined;
+                        for (var data of res.result.data) {
+                            type_set.add(data.type);
+                            data_name = data.type == 'daily' ? resp.result.data[0].daily_mission : resp.result.data[0].weekly_mission
+                            records.push({
+                                _id: data._id,
+                                name: data.name,
+                                score: data.score,
+                                type: data.type,
+                                is_finished: data_name[data._id] ?? false
                             })
                         };
-                        record.sort((a, b) => {
+                        records.sort((a, b) => {
                             if (a.is_finished !== b.is_finished) {
                                 return a.is_finished == false ? -1 : 1;
                             } else {
-                                return a.mission_content < b.mission_content ? -1 : 1;
+                                return a.name < b.name ? -1 : 1;
                             }
                         });
                         this.setData({
                             type: Array.from(type_set).sort(),
-                            record: record
+                            records: records
                         });
                         wx.hideLoading();
                     }).catch((e) => {
@@ -124,88 +126,6 @@ Page({
             });
     },
 
-    submitMission(e) {
-        wx.showLoading({
-            title: '完成了一项任务',
-        });
-        const db = wx.cloud.database({
-            env: this.data.selectedEnv.envId
-        })
-        const _ = db.command;
-        var that = this;
-        db.collection('user')
-            .doc(wx.getStorageSync("_id"))
-            .get({
-                success: function (res) {
-                    var lastTime = new Date(new Date(res.data.achievement_data.last_mission).setHours(0)).setMinutes(0, 0, 0);
-                    var curTime = new Date(new Date().setHours(0)).setMinutes(0, 0, 0);
-                    var curCombo = (curTime - lastTime) / (1 * 24 * 60 * 60 * 1000) == 1 ? res.data.achievement_data.cur_mission_combo + 1 : 1;
-                    db.collection('user')
-                        .doc(wx.getStorageSync("_id"))
-                        .update({
-                            data: {
-                                [e.currentTarget.dataset.type + '_mission']: {
-                                    [e.currentTarget.id]: true
-                                },
-                                user_integral: _.inc(e.currentTarget.dataset.score),
-                                ['achievement_data.total_integral']: _.inc(e.currentTarget.dataset.score),
-                                ['achievement_data.last_mission']: new Date() / 1,
-                                ['achievement_data.cur_mission_combo']: curCombo,
-                                ['achievement_data.max_mission_combo']: Math.max(curCombo, res.data.achievement_data.max_mission_combo)
-                            },
-                            success: (resp) => {
-                                for (var idx in that.data.record) {
-                                    if (that.data.record[idx]._id == e.currentTarget.id) {
-                                        that.setData({
-                                            ['record[' + idx + '].is_finished']: true
-                                        });
-                                        break;
-                                    }
-                                }
-                                var newScore = wx.getStorageSync("integral") + e.currentTarget.dataset.score;
-                                wx.setStorageSync('integral', newScore);
-                                that.setData({
-                                    userIntegral: newScore
-                                });
-                                wx.hideLoading();
-                                // 成就检测
-                                const achievement = db.collection('achievement');
-                                achievement.where({
-                                        type: _.or("score", "day")
-                                    })
-                                    .get({
-                                        success: function (res_achi) {
-                                            for (var i in res_achi.data) {
-                                                var data = res_achi.data[i];
-                                                if (data.type == "score" && res.data.achievement_data.total_integral < data.num && res.data.achievement_data.total_integral + e.currentTarget.dataset.score >= data.num ||
-                                                    data.type == "day" && res.data.achievement_data.cur_mission_combo < data.num && curCombo >= data.num) {
-                                                    var data_copy = data;
-                                                    db.collection('user')
-                                                        .doc(wx.getStorageSync("_id"))
-                                                        .update({
-                                                            data: {
-                                                                achievement: db.command.push([data_copy._id]),
-                                                            },
-                                                            success: (res) => {
-                                                                wx.showModal({
-                                                                    title: '╰(*°▽°*)╯恭喜！',
-                                                                    content: wx.getStorageSync("user_name") + ' 达成成就"' + data_copy.title + '"（' + data_copy.desc + '）',
-                                                                    showCancel: false
-                                                                });
-                                                            },
-                                                            fail: (res) => {
-                                                                console.error(res);
-                                                            }
-                                                        });
-                                                }
-                                            }
-                                        }
-                                    })
-                            }
-                        })
-                }
-            })
-    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
@@ -239,6 +159,101 @@ Page({
         }, 500);
     },
 
+    submit(data) {
+        wx.showLoading({
+            title: '完成了一项任务',
+        });
+        const db = wx.cloud.database({
+            env: this.data.selectedEnv.envId
+        })
+        const _ = db.command;
+        var that = this;
+        db.collection('user')
+            .doc(wx.getStorageSync("_id"))
+            .get({
+                success: function (res) {
+                    var lastTime = new Date(new Date(res.data.achievement_data.last_mission).setHours(0)).setMinutes(0, 0, 0);
+                    var curTime = new Date(new Date().setHours(0)).setMinutes(0, 0, 0);
+                    var curCombo;
+                    let dayDiff = (curTime - lastTime) / (1 * 24 * 60 * 60 * 1000) == 1;
+                    if (dayDiff == 1) {
+                        curCombo = res.data.achievement_data.cur_mission_combo + 1;
+                    } else if (dayDiff == 0) {
+                        curCombo = res.data.achievement_data.cur_mission_combo;
+                    } else {
+                        curCombo = 1;
+                    }
+                    data.detail.item_score = parseInt(data.detail.item_score);
+                    db.collection('user')
+                        .doc(wx.getStorageSync("_id"))
+                        .update({
+                            data: {
+                                [data.detail.item_type + '_mission']: {
+                                    [data.detail.item_id]: true
+                                },
+                                user_integral: _.inc(data.detail.item_score),
+                                ['achievement_data.total_integral']: _.inc(data.detail.item_score),
+                                ['achievement_data.last_mission']: new Date() / 1,
+                                ['achievement_data.cur_mission_combo']: curCombo,
+                                ['achievement_data.max_mission_combo']: Math.max(curCombo, res.data.achievement_data.max_mission_combo)
+                            },
+                            success: (resp) => {
+                                for (var idx in that.data.records) {
+                                    if (that.data.records[idx]._id == data.detail.item_id) {
+                                        that.setData({
+                                            ['records[' + idx + '].is_finished']: true
+                                        });
+                                        break;
+                                    }
+                                }
+                                var newScore = wx.getStorageSync("integral") + data.detail.item_score;
+                                that.setData({
+                                    userIntegral: newScore
+                                });
+                                wx.setStorageSync('integral', newScore);
+                                wx.hideLoading();
+
+                                // 成就检测
+                                const achievement = db.collection('achievement');
+                                achievement.where({
+                                        type: _.or("score", "day")
+                                    })
+                                    .get({
+                                        success: function (res_achi) {
+                                            for (var i in res_achi.data) {
+                                                if (res_achi.data[i].type == "score" && res.data.achievement_data.total_integral < res_achi.data[i].num && res.data.achievement_data.total_integral + data.detail.item_score >= res_achi.data[i].num ||
+                                                res_achi.data[i].type == "day" && res.data.achievement_data.cur_mission_combo < res_achi.data[i].num && curCombo >= res_achi.data[i].num) {
+                                                    var data_copy = res_achi.data[i];
+                                                    db.collection('user')
+                                                        .doc(wx.getStorageSync("_id"))
+                                                        .update({
+                                                            data: {
+                                                                achievement: db.command.push([data_copy._id]),
+                                                            },
+                                                            success: (res) => {
+                                                                wx.showModal({
+                                                                    title: '╰(*°▽°*)╯恭喜！',
+                                                                    content: wx.getStorageSync("user_name") + ' 达成成就"' + data_copy.title + '"（' + data_copy.desc + '）',
+                                                                    showCancel: false
+                                                                });
+                                                            },
+                                                            fail: (res) => {
+                                                                console.error(res);
+                                                            }
+                                                        });
+                                                }
+                                            }
+                                        }
+                                    })
+                            },
+                            fail: (resp) => {
+                                console.log(resp);
+                            }
+                        })
+                }
+            })
+    },
+
     /**
      * 生命周期函数--监听页面显示
      */
@@ -246,8 +261,7 @@ Page({
         this.setData({
             userIntegral: wx.getStorageSync("integral"),
             openid: wx.getStorageSync("openid"),
-            userName: wx.getStorageSync("user_name"),
-            // userAvatar: undefined
+            userName: wx.getStorageSync("user_name")
         })
     },
 

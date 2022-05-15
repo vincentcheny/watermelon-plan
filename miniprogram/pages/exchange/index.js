@@ -9,8 +9,10 @@ Page({
      * 页面的初始数据
      */
     data: {
-        theme: 'light',
+        theme: 'white',
         selectedEnv: envList[0],
+        type: [],
+        records: [],
     },
 
     /**
@@ -29,10 +31,79 @@ Page({
                 })
             })
         };
-        this.refreshRewardList();
+        this.refreshList('reward');
     },
-
-    refreshRewardList() {
+    refreshList(collectionName) {
+        wx.showLoading({
+            title: '读取任务列表',
+        });
+        this.setData({
+            openid: wx.getStorageSync("openid")
+        })
+        wx.cloud.callFunction({
+                name: 'quickstartFunctions',
+                config: {
+                    env: this.data.selectedEnv.envId
+                },
+                data: {
+                    type: 'getUserByOpenId',
+                    data: {
+                        openid: this.data.openid
+                    }
+                }
+            })
+            .then((resp) => {
+                if (resp.result.data.length == 0) {
+                    throw new Error("Return list is empty. No corresponding openid in the database.")
+                }
+                wx.setStorageSync('_id', resp.result.data[0]._id)
+                wx.cloud.callFunction({
+                        name: 'quickstartFunctions',
+                        config: {
+                            env: this.data.selectedEnv.envId
+                        },
+                        data: {
+                            type: 'getCollection',
+                            name: collectionName
+                        }
+                    })
+                    .then((res) => {
+                        var records = new Array();
+                        var type_set = new Set();
+                        var data_name = undefined;
+                        for (var data of res.result.data) {
+                            type_set.add(data.type);
+                            data_name = data.type == 'daily' ? resp.result.data[0].daily_mission : resp.result.data[0].weekly_mission
+                            records.push({
+                                _id: data._id,
+                                name: data.name,
+                                score: data.score,
+                                type: data.type,
+                                is_finished: data_name[data._id] ?? false
+                            })
+                        };
+                        records.sort((a, b) => {
+                            if (a.is_finished !== b.is_finished) {
+                                return a.is_finished == false ? -1 : 1;
+                            } else {
+                                return a.name < b.name ? -1 : 1;
+                            }
+                        });
+                        this.setData({
+                            type: Array.from(type_set).sort(),
+                            records: records
+                        });
+                        wx.hideLoading();
+                    }).catch((e) => {
+                        console.log(e);
+                        wx.hideLoading();
+                    });
+            }).catch((e) => {
+                console.log(e);
+                wx.hideLoading();
+            });
+    },
+    refreshList1(collectionName) {
         wx.showLoading({
             title: '读取奖励列表',
         });
@@ -64,7 +135,7 @@ Page({
                         },
                         data: {
                             type: 'getCollection',
-                            name: 'reward'
+                            name: collectionName
                         }
                     })
                     .then((res) => {
@@ -104,8 +175,9 @@ Page({
             });
     },
 
-    submitReward(e) {
-        if (wx.getStorageSync("integral") < e.currentTarget.dataset.score) {
+    submit(data) {
+        data.detail.item_score = parseInt(data.detail.item_score);
+        if (wx.getStorageSync("integral") < data.detail.item_score) {
             wx.showModal({
                 title: '提示',
                 content: '积分不够哦，当前积分：'+wx.getStorageSync("integral")
@@ -113,32 +185,33 @@ Page({
             return;
         }
         wx.showLoading({
-            title: '正在大声地说我领了一项奖励',
+            title: '正在领取奖励',
         });
         const db = wx.cloud.database({
             env: this.data.selectedEnv.envId
         })
+        var that = this;
         db.collection('user')
         .doc(wx.getStorageSync("_id"))
         .update({
             data: {
-                [e.currentTarget.dataset.type + '_reward']: {
-                    [e.currentTarget.id]: true
+                [data.detail.item_type + '_reward']: {
+                    [data.detail.item_id]: true
                 }, 
-                user_integral: db.command.inc((-1) * e.currentTarget.dataset.score)
+                user_integral: db.command.inc((-1) * data.detail.item_score)
             },
             success: (res) => {
-                for (var idx in this.data.record) {
-                    if (this.data.record[idx]._id == e.currentTarget.id) {
-                        this.setData({
-                            ['record['+idx+'].is_finished']: true
+                for (var idx in that.data.records) {
+                    if (that.data.records[idx]._id == data.detail.item_id) {
+                        that.setData({
+                            ['records['+idx+'].is_finished']: true
                         });
                         break;
                     }
                 }
-                var newScore = wx.getStorageSync("integral")-e.currentTarget.dataset.score;
+                var newScore = wx.getStorageSync("integral")-data.detail.item_score;
                 wx.setStorageSync('integral', newScore);
-                this.setData({
+                that.setData({
                     userIntegral: newScore
                 });
                 wx.hideLoading();
@@ -151,7 +224,7 @@ Page({
         db.collection('bag')
         .add({
             data: {
-                reward_name: e.currentTarget.dataset.name,
+                reward_name: data.detail.item_name,
                 time: new Date() / 1
             }
         });

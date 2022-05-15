@@ -1,4 +1,5 @@
 // pages/query/index.js
+
 Page({
 
     /**
@@ -12,9 +13,22 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+        this.setData({
+            slideButtons: [{
+                text: '普通',
+            }, {
+                text: '普通',
+                extClass: 'test',
+            }, {
+                type: 'warn',
+                text: '警示',
+                extClass: 'test',
+            }],
+        });
     },
-
+    slideButtonTap(e) {
+        console.log('slide button tap', e.detail)
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

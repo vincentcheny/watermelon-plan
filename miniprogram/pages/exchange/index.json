@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "兑换商店🔀"
+    "navigationBarTitleText": "兑换商店🔀",
+    "usingComponents": {
+        "list": "/components/list/index"
+    }
 }

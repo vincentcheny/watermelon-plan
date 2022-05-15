@@ -58,7 +58,7 @@
       6. 管理员编辑
 
          - [x] mission和reward的增删查改
-         - [ ] 用户自由绑定管理员
+         - [ ] ~~用户自由绑定管理员~~
 
       7. 近2天完成情况报告
 
@@ -73,7 +73,7 @@
 
    5. 我的（profile）
       - 设置
-         - [ ] 颜色主题（暗黑、简白、黛西、星之卡比和玉桂狗）带图标
+         - [ ] 颜色主题（暗黑、简白、黛西、星之卡比、玉桂狗、西瓜）带图标
            - [获取当前主题](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getSystemInfoSync.html)
            - [跨页面传参](https://www.jianshu.com/p/49f0e3bade27)
 
@@ -85,18 +85,19 @@
       - [ ] 添加record数据集合记录所有改变数据库的操作
       - [x] 使用progress代替成就页面的divider
       - [ ] 将数据库调用替换成云函数，[理由](https://developers.weixin.qq.com/community/develop/doc/00008603b683680f5d4caf69355c00)
-      - [ ] 将mission和exchange的显示部分提取成通用云函数
+      - [x] 将mission和exchange的显示部分提取成通用云函数
       - [ ] 设计成就奖励
-
+      - [ ] 九宫格grid显示首页
+      - [ ] 使用原生icon
+      - [ ] 右划操作列表
+      - [ ] editor替换textarea
+   
 3. 待做任务优先级
 
    ```sequence
    设计成就奖励 -> 成就奖励主题预览图:
    多颜色主题 -> 成就奖励主题预览图:
-   提取显示为通用云函数 -> 替换成云函数:
    替换成云函数 -> 记录所有数据库操作:
    记录所有数据库操作 -> 完成记录折线图: 
    Note left of 用户自由绑定管理员: /
    ```
-
-   

@@ -8,32 +8,6 @@
   />
 </view>
 <view>
-    <list types="{{type}}" records="{{record}}"></list>
+    <list bind:submitFunc="submit" types="{{type}}" records="{{records}}" doneText="完成" undoneText="做过啦"></list>
 </view>
 
-<!-- <view class="container" data-weui-theme="{{theme}}">
-    <view wx:for="{{type}}" wx:for-item="typeItem" wx:key="*this" class="box">
-        <view class="row">
-            <view class="row_title row_width_content">{{typeItem == 'daily' ? '每日' : typeItem == 'weekly' ? '每周' : '其它'}}任务</view>
-            <view class="row_title row_width_number">积分</view>
-            <view class="row_title row_width_action">操作</view>
-        </view>
-        <view class="divider"></view>
-        <view wx:for="{{record}}" wx:key="_id">
-            <view class="row row_detail" wx:if="{{item.type == typeItem}}">
-                <view class="row_width_content">
-                    <image wx:if="{{item.mission_image}}" class="image_detail" mode="scaleToFill" src="{{item.mission_image}}"></image>
-                    {{item.mission_content}}
-                </view>
-                <view class="row_width_number">
-                    {{item.mission_score}}
-                </view>
-                <view class="row_width_action">
-                    <view id="{{item._id}}" class="button {{item.is_finished && 'button_disabled'}}" bindtap="{{item.is_finished ? '' : 'submitMission'}}" data-score="{{item.mission_score}}" data-type="{{item.type}}">
-                        {{item.is_finished ? '做过惹' : '完成'}}
-                    </view>
-                </view>
-            </view>
-        </view>
-    </view>
-</view> -->

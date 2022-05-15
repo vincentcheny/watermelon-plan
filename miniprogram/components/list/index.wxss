@@ -1,2 +1,14 @@
 /* components/list/index.wxss */
+
+@import '../../components/common.wxss';
 @import "../../common/index.wxss";
+
+.weui-slidecells {
+    margin:8px;
+  }
+  
+  .weui-slidecell {
+    background-color: #555555;
+    border-radius: 8px;
+    font-size: 17px;
+  }
