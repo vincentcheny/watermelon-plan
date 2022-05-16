@@ -3,12 +3,15 @@
 @import '../../components/common.wxss';
 @import "../../common/index.wxss";
 
-.weui-slidecells {
-    margin:8px;
-  }
-  
-  .weui-slidecell {
-    background-color: #555555;
-    border-radius: 8px;
-    font-size: 17px;
-  }
+.pink-background>.weui-slideview__btn {
+    background-color: pink;
+}
+.pink-background {
+    border-left: solid;
+}
+.yellow-background>.weui-slideview__btn {
+    background-color: yellow;
+}
+.grey-background>.weui-slideview__btn {
+    background-color: grey;
+}

@@ -1,13 +1,14 @@
 <!--pages/exchange/index.wxml-->
 <view class="integral">🍭：{{userIntegral || 0}}</view>
-<view class="charts-box">
+<!-- <view class="charts-box">
   <qiun-wx-ucharts 
     type="line"
     opts="{{opts}}"
     chartData="{{chartData}}"
   />
-</view>
+</view> -->
 <view>
-    <list bind:submitFunc="submit" types="{{type}}" records="{{records}}" doneText="完成" undoneText="做过啦"></list>
+    <list bind:submitFunc="submit" types="{{type}}" records="{{records}}" doneText="做过啦" undoneText="完成"></list>
 </view>
+
 

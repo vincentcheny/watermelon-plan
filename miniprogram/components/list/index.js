@@ -4,6 +4,9 @@ const {
 } = require('../../envList.js');
 
 Component({
+    options: {
+        styleIsolation: 'shared'
+    },
     /**
      * 组件的属性列表
      */
@@ -25,7 +28,6 @@ Component({
             value: '未做'
         }
     },
-
     /**
      * 组件的初始数据
      */
@@ -33,15 +35,16 @@ Component({
         selectedEnv: envList[0],
         slideButtons: [{
             text: '普通',
+            extClass: 'pink-background',
             src: '/image/icon/icon_love.svg'
           }, {
             text: '普通',
-            extClass: 'test',
+            extClass: 'yellow-background',
             src: '/image/icon/icon_star.svg'
           }, {
             type: 'warn',
             text: '警示',
-            extClass: 'test',
+            extClass: 'grey-background',
             src: '/image/icon/icon_del.svg'
           }]
     },
@@ -57,6 +60,10 @@ Component({
                 item_id: e.currentTarget.dataset.id,
                 item_name: e.currentTarget.dataset.name
             });
+        },
+        slideButtonTap(e) {
+            // e.detail.index 是第N个小图标
+            console.log(e);
         }
     }
 })
