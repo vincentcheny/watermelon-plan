@@ -18,11 +18,6 @@
                     <view class="col_score">
                         {{item.content}}
                     </view>
-                    <!-- <view class="row_width_action">
-                        <view data-id="{{item._id}}" class="button {{item.is_finished && 'button_disabled'}}" bindtap="{{item.is_finished ? '' : 'componentSubmit'}}" data-score="{{item.score}}" data-type="{{item.type}}" data-name="{{item.name}}">
-                            {{item.is_finished ? doneText : undoneText}}
-                        </view>
-                    </view> -->
                 </view>
             </mp-slideview>
         </view>

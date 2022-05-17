@@ -18,14 +18,6 @@ Component({
         records: {
             type: Array,
             value: []
-        },
-        doneText: {
-            type: String,
-            value: '已做'
-        },
-        undoneText: {
-            type: String,
-            value: '未做'
         }
     },
     /**

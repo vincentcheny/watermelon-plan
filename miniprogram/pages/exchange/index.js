@@ -103,77 +103,6 @@ Page({
                 wx.hideLoading();
             });
     },
-    refreshList1(collectionName) {
-        wx.showLoading({
-            title: '读取奖励列表',
-        });
-        this.setData({
-            openid: wx.getStorageSync("openid")
-        })
-
-        wx.cloud.callFunction({
-                name: 'quickstartFunctions',
-                config: {
-                    env: this.data.selectedEnv.envId
-                },
-                data: {
-                    type: 'getUserByOpenId',
-                    data: {
-                        openid: this.data.openid
-                    }
-                }
-            })
-            .then((resp) => {
-                if (resp.result.data.length == 0) {
-                    throw new Error("Return list is empty. No corresponding openid in the database.")
-                }
-                
-                wx.cloud.callFunction({
-                        name: 'quickstartFunctions',
-                        config: {
-                            env: this.data.selectedEnv.envId
-                        },
-                        data: {
-                            type: 'getCollection',
-                            name: collectionName
-                        }
-                    })
-                    .then((res) => {
-                        var record = new Array();
-                        var type_set = new Set();
-                        var reward_name = undefined;
-                        for (var reward of res.result.data) {
-                            type_set.add(reward.type);
-                            reward_name = reward.type == 'daily'?resp.result.data[0].daily_reward:resp.result.data[0].weekly_reward
-                            record.push({
-                                _id: reward._id,
-                                reward_name: reward.name,
-                                reward_score: reward.score,
-                                type: reward.type,
-                                is_finished: reward_name == undefined ? false : reward_name[reward._id] ?? false
-                            })
-                        };
-                        record.sort((a,b) => {
-                            if (a.is_finished !== b.is_finished) {
-                                return a.is_finished == false ? -1 : 1;
-                            } else {
-                                return a.reward_name < b.reward_name ? -1 : 1;
-                            }
-                        });
-                        this.setData({
-                            type: Array.from(type_set).sort(),
-                            record: record
-                        });
-                        wx.hideLoading();
-                    }).catch((e) => {
-                        console.log(e);
-                        wx.hideLoading();
-                    });
-            }).catch((e) => {
-                console.log(e);
-                wx.hideLoading();
-            });
-    },
 
     submit(data) {
         data.detail.item_score = parseInt(data.detail.item_content);
@@ -205,6 +134,11 @@ Page({
                     if (that.data.records[idx]._id == data.detail.item_id) {
                         that.setData({
                             ['records['+idx+'].is_finished']: true
+                        });
+                        wx.showModal({
+                            title: '提示',
+                            content: '领取了 "' + data.detail.item_name + '"！',
+                            showCancel: false
                         });
                         break;
                     }

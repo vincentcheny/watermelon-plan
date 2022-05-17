@@ -203,6 +203,11 @@ Page({
                                         that.setData({
                                             ['records[' + idx + '].is_finished']: true
                                         });
+                                        wx.showModal({
+                                            title: '提示',
+                                            content: '完成了 "' + data.detail.item_name + '"！',
+                                            showCancel: false
+                                        });
                                         break;
                                     }
                                 }
@@ -212,7 +217,7 @@ Page({
                                 });
                                 wx.setStorageSync('integral', newScore);
                                 wx.hideLoading();
-
+                                
                                 // 成就检测
                                 const achievement = db.collection('achievement');
                                 achievement.where({

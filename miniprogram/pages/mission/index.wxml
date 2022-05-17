@@ -8,7 +8,7 @@
   />
 </view> -->
 <view>
-    <list bind:submitFunc="submit" types="{{type}}" records="{{records}}" doneText="做过啦" undoneText="完成"></list>
+    <list bind:submitFunc="submit" types="{{type}}" records="{{records}}"></list>
 </view>
 
 
