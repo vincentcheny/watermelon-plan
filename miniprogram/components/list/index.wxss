@@ -3,15 +3,11 @@
 @import '../../components/common.wxss';
 @import "../../common/index.wxss";
 
-.pink-background>.weui-slideview__btn {
-    background-color: pink;
+.send-icon>.weui-slideview__btn {
+    background-color: #555555;
 }
-.pink-background {
-    border-left: solid;
-}
-.yellow-background>.weui-slideview__btn {
-    background-color: yellow;
-}
-.grey-background>.weui-slideview__btn {
-    background-color: grey;
+.done-icon>.weui-slideview__btn {
+    background-color: #555555;
+    border-style: solid;
+    border-color: #555555;
 }

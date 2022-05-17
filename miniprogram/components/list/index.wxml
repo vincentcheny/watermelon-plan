@@ -9,14 +9,14 @@
         <view class="divider"></view>
 
         <view wx:for="{{records}}" wx:key="_id">
-            <mp-slideview buttons="{{slideButtons}}" icon="{{true}}" bindbuttontap="slideButtonTap">
+            <mp-slideview buttons="{{item.is_finished? [slideButtons[1]]: [slideButtons[0]]}}" icon="{{true}}" bindshow="slideButtonShow" data-id="{{item._id}}" data-content="{{item.content}}" data-type="{{item.type}}" data-name="{{item.name}}">
                 <view class="row row_detail1" wx:if="{{item.type == typeItem}}">
                     <view class="col_content">
                         <image wx:if="{{item.mission_image}}" class="image_detail" mode="scaleToFill" src="{{item.mission_image}}"></image>
                         {{item.name}}
                     </view>
                     <view class="col_score">
-                        {{item.score}}
+                        {{item.content}}
                     </view>
                     <!-- <view class="row_width_action">
                         <view data-id="{{item._id}}" class="button {{item.is_finished && 'button_disabled'}}" bindtap="{{item.is_finished ? '' : 'componentSubmit'}}" data-score="{{item.score}}" data-type="{{item.type}}" data-name="{{item.name}}">

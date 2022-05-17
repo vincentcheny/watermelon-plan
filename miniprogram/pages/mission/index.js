@@ -99,7 +99,7 @@ Page({
                             records.push({
                                 _id: data._id,
                                 name: data.name,
-                                score: data.score,
+                                content: data.score,
                                 type: data.type,
                                 is_finished: data_name[data._id] ?? false
                             })
@@ -183,7 +183,7 @@ Page({
                     } else {
                         curCombo = 1;
                     }
-                    data.detail.item_score = parseInt(data.detail.item_score);
+                    data.detail.item_score = parseInt(data.detail.item_content);
                     db.collection('user')
                         .doc(wx.getStorageSync("_id"))
                         .update({

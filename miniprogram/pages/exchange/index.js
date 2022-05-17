@@ -73,11 +73,11 @@ Page({
                         var data_name = undefined;
                         for (var data of res.result.data) {
                             type_set.add(data.type);
-                            data_name = data.type == 'daily' ? resp.result.data[0].daily_mission : resp.result.data[0].weekly_mission
+                            data_name = data.type == 'daily' ? resp.result.data[0].daily_reward : resp.result.data[0].weekly_reward;
                             records.push({
                                 _id: data._id,
                                 name: data.name,
-                                score: data.score,
+                                content: data.score,
                                 type: data.type,
                                 is_finished: data_name[data._id] ?? false
                             })
@@ -176,7 +176,7 @@ Page({
     },
 
     submit(data) {
-        data.detail.item_score = parseInt(data.detail.item_score);
+        data.detail.item_score = parseInt(data.detail.item_content);
         if (wx.getStorageSync("integral") < data.detail.item_score) {
             wx.showModal({
                 title: '提示',

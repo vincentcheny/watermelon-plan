@@ -8,7 +8,6 @@
 page {
   height: 100%;
   display: flex;
-  justify-content: center;
 }
 
 .page {
@@ -125,10 +124,4 @@ image {
 
 .weui-cell_example:before {
   left: 52px
-}
-
-@media (prefers-color-scheme: dark) {
-  page {
-    background-color: #1F1F1F;
-  }
 }

@@ -3,4 +3,3 @@
 <view style="padding-top: 0;margin-top: 0;">
     <list bind:submitFunc="submit" types="{{type}}" records="{{records}}" doneText="领过啦" undoneText="领取"></list>
 </view>
-hello

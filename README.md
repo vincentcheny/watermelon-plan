@@ -73,7 +73,7 @@
 
    5. 我的（profile）
       - 设置
-         - [ ] 颜色主题（暗黑、简白、黛西、星之卡比、玉桂狗、西瓜）带图标
+         - [ ] 颜色主题（暗黑、简白、黛西、星之卡比和玉桂狗）带图标
            - [获取当前主题](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getSystemInfoSync.html)
            - [跨页面传参](https://www.jianshu.com/p/49f0e3bade27)
 
@@ -89,7 +89,7 @@
       - [ ] 设计成就奖励
       - [ ] 九宫格grid显示首页
       - [ ] 使用原生icon
-      - [ ] 右划操作列表
+      - [x] 右划操作列表
       - [ ] editor替换textarea
    
 3. 待做任务优先级

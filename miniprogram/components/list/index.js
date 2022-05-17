@@ -35,17 +35,12 @@ Component({
         selectedEnv: envList[0],
         slideButtons: [{
             text: '普通',
-            extClass: 'pink-background',
-            src: '/image/icon/icon_love.svg'
-          }, {
+            extClass: 'send-icon',
+            src: '/image/icon/send.svg'
+          },{
             text: '普通',
-            extClass: 'yellow-background',
-            src: '/image/icon/icon_star.svg'
-          }, {
-            type: 'warn',
-            text: '警示',
-            extClass: 'grey-background',
-            src: '/image/icon/icon_del.svg'
+            extClass: 'done-icon',
+            src: '/image/icon/done.svg'
           }]
     },
 
@@ -53,17 +48,18 @@ Component({
      * 组件的方法列表
      */
     methods: {
-        componentSubmit(e) {
+        slideButtonShow(e) {
+            for (var idx in this.data.records) {
+                if (this.data.records[idx]._id == e.currentTarget.dataset.id && this.data.records[idx].is_finished) {
+                    return
+                }
+            }
             this.triggerEvent('submitFunc', {
-                item_score: e.currentTarget.dataset.score,
+                item_content: e.currentTarget.dataset.content,
                 item_type: e.currentTarget.dataset.type,
                 item_id: e.currentTarget.dataset.id,
                 item_name: e.currentTarget.dataset.name
             });
-        },
-        slideButtonTap(e) {
-            // e.detail.index 是第N个小图标
-            console.log(e);
         }
     }
 })
