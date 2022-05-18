@@ -66,20 +66,27 @@ Page({
                 }
             })
             .then((resp) => {
-                var record = new Array();
+                var records = new Array();
                 for (var reward of resp.result.list[0].records) {
-                    record.push({
+                    records.push({
                         _id: reward._id,
-                        reward_name: reward.reward_name,
+                        name: reward.reward_name,
                         exacttime: reward.time,
-                        time: this.dateFormat("YYYY-mm-dd HH:MM:SS", new Date(reward.time))
+                        is_finished: false,
+                        type: 'regular',
+                        content: this.dateFormat("YYYY-mm-dd HH:MM:SS", new Date(reward.time))
                     })
                 };
-                record.sort((a, b) => {
-                    return a.time - b.time
+                records.sort((a, b) => {
+                    return a.exacttime - b.exacttime
                 });
                 this.setData({
-                    record: record
+                    type: ['regular'],
+                    records: records,
+                    titles: [
+                        {regular: '奖励名称'},
+                        '兑换时间'
+                    ]
                 });
                 wx.hideLoading();
             }).catch((e) => {
@@ -88,10 +95,10 @@ Page({
             });
     },
 
-    deleteItem(e) {
+    submit(e) {
         wx.showModal({
             cancelColor: 'cancelColor',
-            title: '是否确定使用"' + e.currentTarget.dataset.name + '"？',
+            title: '是否确定使用 "' + e.detail.item_name + '" ？',
             content: '嚯嚯！',
             success: (res) => {
                 if (res.confirm) {
@@ -103,17 +110,17 @@ Page({
                     })
                     db.collection('bag').where({
                         _openid: wx.getStorageSync("openid"),
-                        time: e.currentTarget.dataset.exacttime
+                        time: e.detail.item_time
                     }).remove();
 
-                    var new_record = new Array();
-                    for (var i = 0; i < this.data.record.length; i++) {
-                        if (this.data.record[i].time != e.currentTarget.dataset.time) {
-                            new_record.push(this.data.record[i])
+                    var new_records = new Array();
+                    for (var i = 0; i < this.data.records.length; i++) {
+                        if (this.data.records[i].exacttime != e.detail.item_time) {
+                            new_records.push(this.data.records[i])
                         }
                     }
                     this.setData({
-                        record: new_record
+                        records: new_records
                     });
                     wx.hideLoading();
                 }

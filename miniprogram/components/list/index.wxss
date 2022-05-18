@@ -6,8 +6,30 @@
 .send-icon>.weui-slideview__btn {
     background-color: #555555;
 }
+
 .done-icon>.weui-slideview__btn {
     background-color: #555555;
     border-style: solid;
     border-color: #555555;
+}
+.more-icon>.weui-slideview__btn {
+    background-color: #555555;
+}
+.update-icon>.weui-slideview__btn {
+    background-color: #555555;
+}
+.delete-icon>.weui-slideview__btn {
+    background-color: #555555;
+}
+
+.row_detail {
+    font-size: 40rpx;
+    padding: 10rpx 0;
+    margin: 15rpx auto;
+}
+
+.infoPopup {
+    margin: 150rpx 30rpx;
+    color: black;
+    text-align: center;
 }

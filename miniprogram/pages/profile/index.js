@@ -1,34 +1,64 @@
 // pages/query/index.js
+const {
+    envList
+} = require('../../envList.js');
+const app = getApp();
 
 Page({
-
     /**
      * 页面的初始数据
      */
     data: {
-        type: ['1'],
-        records: ['2'],
+        theme: 'no',
+        selectedEnv: envList[0],
+        list: [{
+            id: 'theme',
+            name: '主题',
+            icon: '/image/icon/theme.svg',
+            open: false,
+            items: [{
+                value: 'white',
+                name: '简约',
+                checked: 'true'
+            }, {
+                value: 'melon',
+                name: '西瓜'
+            }, {
+                value: 'dog',
+                name: '玉桂狗'
+            }, {
+                value: 'star',
+                name: '星之卡比'
+            }]
+        }],
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        this.setData({
-            slideButtons: [{
-                text: '普通',
-            }, {
-                text: '普通',
-                extClass: 'test',
-            }, {
-                type: 'warn',
-                text: '警示',
-                extClass: 'test',
-            }],
-        });
+
     },
-    slideButtonTap(e) {
-        console.log('slide button tap', e.detail)
+
+    tagToggle(e) {
+        const list = this.data.list;
+        for (var i in list) {
+            if (list[i].id == e.currentTarget.dataset.id) {
+                list[i].open = !list[i].open
+            }
+        }
+        this.setData({
+            list
+        })
+    },
+
+    radioChange(e){
+        if (e.currentTarget.dataset.id == 'theme') {
+            app.globalData.theme = e.detail.value
+            this.setData({
+                theme: e.detail.value
+            })
+        }
     },
     /**
      * 生命周期函数--监听页面初次渲染完成

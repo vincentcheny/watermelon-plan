@@ -91,7 +91,15 @@ Page({
                         });
                         this.setData({
                             type: Array.from(type_set).sort(),
-                            records: records
+                            records: records,
+                            titles: [
+                                {
+                                    daily: '每日兑换',
+                                    weekly: '每周兑换',
+                                    others: '其它兑换'
+                                },
+                                '积分'
+                            ]
                         });
                         wx.hideLoading();
                     }).catch((e) => {
@@ -137,7 +145,7 @@ Page({
                         });
                         wx.showModal({
                             title: '提示',
-                            content: '领取了 "' + data.detail.item_name + '"！',
+                            content: '领取了 "' + data.detail.item_name + '" ！',
                             showCancel: false
                         });
                         break;

@@ -3,19 +3,30 @@
 <view style="width: 100%; margin: auto 20rpx;">
     <view wx:for="{{types}}" wx:for-item="typeItem" wx:key="*this" class="box">
         <view class="row">
-            <view class="row_title col_content">{{typeItem == 'daily' ? '每日' : typeItem == 'weekly' ? '每周' : '其它'}}任务</view>
-            <view class="row_title col_score">积分</view>
+            <view class="row_title" style="width: {{name_width}};">{{titles[0][typeItem]}}</view>
+            <view class="row_title" style="width: {{content_width}};">{{titles[1]}}</view>
         </view>
         <view class="divider"></view>
 
         <view wx:for="{{records}}" wx:key="_id">
-            <mp-slideview buttons="{{item.is_finished? [slideButtons[1]]: [slideButtons[0]]}}" icon="{{true}}" bindshow="slideButtonShow" data-id="{{item._id}}" data-content="{{item.content}}" data-type="{{item.type}}" data-name="{{item.name}}">
-                <view class="row row_detail1" wx:if="{{item.type == typeItem}}">
-                    <view class="col_content">
+            <wxs module="fn">
+                module.exports = {
+                    slice: function (arr, is_finished, is_manager) {
+                        if (is_manager) {
+                            return arr.slice(4,6);
+                        } else {
+                            return is_finished?arr.slice(2,4):arr.slice(0,2);
+                        }
+                    }
+                }
+            </wxs>
+            <mp-slideview buttons="{{fn.slice(slideButtons,item.is_finished,is_manager)}}" icon="{{true}}" bindbuttontap="slideButtonTap" data-id="{{item._id}}" data-content="{{item.content}}" data-type="{{item.type}}" data-name="{{item.name}}" data-time="{{item.exacttime}}">
+                <view class="row row_detail" wx:if="{{item.type == typeItem}}">
+                    <view style="width: {{name_width}};">
                         <image wx:if="{{item.mission_image}}" class="image_detail" mode="scaleToFill" src="{{item.mission_image}}"></image>
                         {{item.name}}
                     </view>
-                    <view class="col_score">
+                    <view style="width: {{content_width}};">
                         {{item.content}}
                     </view>
                 </view>
@@ -23,3 +34,6 @@
         </view>
     </view>
 </view>
+<page-container show="{{showIntro}}" round="true" position="bottom">
+    <view class="infoPopup title"><text>{{msg}}</text></view>
+</page-container>

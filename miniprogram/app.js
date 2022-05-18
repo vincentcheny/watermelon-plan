@@ -14,6 +14,8 @@ App({
       });
     }
 
-    this.globalData = {};
+    this.globalData = {
+        theme: 'white'
+    };
   }
 });

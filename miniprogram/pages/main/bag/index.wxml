@@ -1,33 +1,5 @@
 <!--pages/bag/index.wxml-->
 <view class="integral">🍭：{{userIntegral || 0}}</view>
-<view class="container" data-weui-theme="{{theme}}">
-    <view class="box">
-        <view class="row">
-            <view class="row_title row_width_content">奖励名称</view>
-            <view class="row_title row_width_number">兑换时间</view>
-            <view class="row_title row_width_action">操作</view>
-        </view>
-        <view class="divider"></view>
-        <view wx:if="{{record.length == 0}}" class="row row_detail">
-            <view class="row_width_content"></view>
-            <view class="row_width_number"></view>
-            <view class="row_width_action"></view>
-        </view>
-        <view wx:for="{{record}}" wx:key="_id">
-            <view class="row row_detail">
-                <view class="row_width_content">
-                    <image wx:if="{{item.reward_image}}" class="image_detail" mode="scaleToFill" src="{{item.reward_image}}"></image>
-                    {{item.reward_name}}
-                </view>
-                <view class="row_width_number">
-                    {{item.time}}
-                </view>
-                <view class="row_width_action">
-                    <view class="button" bindtap="deleteItem" data-name="{{item.reward_name}}" data-exacttime="{{item.exacttime}}" data-time="{{item.time}}">
-                        使用
-                    </view>
-                </view>
-            </view>
-        </view>
-    </view>
+<view>
+    <list bind:submitFunc="submit" types="{{type}}" records="{{records}}" titles="{{titles}}" name_width='30%' content_width='70%'></list>
 </view>

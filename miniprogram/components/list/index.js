@@ -13,11 +13,30 @@ Component({
     properties: {
         types: {
             type: Array,
-            value: []
+            value: ['regular']
         },
         records: {
             type: Array,
             value: []
+        },
+        titles: {
+            type: Array,
+            value: [
+                {regular: '名称'},
+                '内容'
+            ]
+        },
+        name_width: {
+            type: String,
+            value: '50%'
+        },
+        content_width: {
+            type: String,
+            value: '50%'
+        },
+        is_manager: {
+            type: Boolean,
+            value: false
         }
     },
     /**
@@ -26,13 +45,23 @@ Component({
     data: {
         selectedEnv: envList[0],
         slideButtons: [{
-            text: '普通',
             extClass: 'send-icon',
             src: '/image/icon/send.svg'
-          },{
-            text: '普通',
+          }, {
+            extClass: 'more-icon',
+            src: '/image/icon/more.svg'
+          }, {
             extClass: 'done-icon',
             src: '/image/icon/done.svg'
+          }, {
+            extClass: 'more-icon',
+            src: '/image/icon/more.svg'
+          }, {
+            extClass: 'update-icon',
+            src: '/image/icon/update.svg'
+          }, {
+            extClass: 'delete-icon',
+            src: '/image/icon/delete.svg'
           }]
     },
 
@@ -40,18 +69,26 @@ Component({
      * 组件的方法列表
      */
     methods: {
-        slideButtonShow(e) {
-            for (var idx in this.data.records) {
-                if (this.data.records[idx]._id == e.currentTarget.dataset.id && this.data.records[idx].is_finished) {
-                    return
+        slideButtonTap(e) {
+            if (e.detail.index == 0) {
+                for (var idx in this.data.records) {
+                    if (this.data.records[idx]._id == e.currentTarget.dataset.id && this.data.records[idx].is_finished) {
+                        return
+                    }
                 }
+                this.triggerEvent('submitFunc', {
+                    item_content: e.currentTarget.dataset.content,
+                    item_type: e.currentTarget.dataset.type,
+                    item_id: e.currentTarget.dataset.id,
+                    item_name: e.currentTarget.dataset.name,
+                    item_time: e.currentTarget.dataset.time
+                });
+            } else if (e.detail.index == 1) {
+                this.setData({
+                    showIntro: true,
+                    msg: e.currentTarget.dataset.content
+                });
             }
-            this.triggerEvent('submitFunc', {
-                item_content: e.currentTarget.dataset.content,
-                item_type: e.currentTarget.dataset.type,
-                item_id: e.currentTarget.dataset.id,
-                item_name: e.currentTarget.dataset.name
-            });
         }
     }
 })

@@ -1,2 +1,8 @@
 /* pages/main/manage/index.wxss */
 @import "../../../common/index.wxss";
+
+.row_detail {
+    height: 60px;
+    font-size: 36rpx;
+    align-items: center;
+}

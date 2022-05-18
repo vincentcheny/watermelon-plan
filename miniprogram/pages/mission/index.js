@@ -113,7 +113,15 @@ Page({
                         });
                         this.setData({
                             type: Array.from(type_set).sort(),
-                            records: records
+                            records: records,
+                            titles: [
+                                {
+                                    daily: '每日任务',
+                                    weekly: '每周任务',
+                                    others: '其它任务'
+                                },
+                                '积分'
+                            ]
                         });
                         wx.hideLoading();
                     }).catch((e) => {
@@ -205,7 +213,7 @@ Page({
                                         });
                                         wx.showModal({
                                             title: '提示',
-                                            content: '完成了 "' + data.detail.item_name + '"！',
+                                            content: '完成了 "' + data.detail.item_name + '" ！',
                                             showCancel: false
                                         });
                                         break;

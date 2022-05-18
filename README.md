@@ -72,25 +72,26 @@
       - [x]  周常奖励
 
    5. 我的（profile）
-      - 设置
-         - [ ] 颜色主题（暗黑、简白、黛西、星之卡比和玉桂狗）带图标
-           - [获取当前主题](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getSystemInfoSync.html)
-           - [跨页面传参](https://www.jianshu.com/p/49f0e3bade27)
-
+      
+      - [x] 构建设置页面
+      - [ ] 颜色主题（暗黑、简白、黛西、星之卡比和玉桂狗）带图标
+        - [获取当前主题](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getSystemInfoSync.html)
+        - [跨页面传参](https://www.jianshu.com/p/49f0e3bade27)
+      
    6. 未来功能
       1. [绑定另一半并通过小程序订阅功能推送提醒](https://www.zhihu.com/question/52719661)
-
+   
    7. 短期TODO
-
+   
       - [ ] 添加record数据集合记录所有改变数据库的操作
       - [x] 使用progress代替成就页面的divider
       - [ ] 将数据库调用替换成云函数，[理由](https://developers.weixin.qq.com/community/develop/doc/00008603b683680f5d4caf69355c00)
-      - [x] 将mission和exchange的显示部分提取成通用云函数
+      - [x] 将管理页面以外的列表显示部分提取成 Component
       - [ ] 设计成就奖励
-      - [ ] 九宫格grid显示首页
-      - [ ] 使用原生icon
+      - [x] 九宫格grid显示首页
+      - [ ] ~~使用原生icon~~
       - [x] 右划操作列表
-      - [ ] editor替换textarea
+      - [ ] ~~editor替换textarea~~
    
 3. 待做任务优先级
 

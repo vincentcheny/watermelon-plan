@@ -1,5 +1,6 @@
 <!--pages/main/manage/index.wxml-->
 <view class="integral">🍭：{{userIntegral || 0}}</view>
+
 <view class="container" data-weui-theme="{{theme}}">
     <view wx:for="{{attribute}}" wx:for-item="attrItem" wx:key="*this" class="box">
         <view wx:for="{{type}}" wx:for-item="typeItem" wx:key="*this">

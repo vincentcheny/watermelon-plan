@@ -1,3 +1,6 @@
 {
-    "navigationBarTitleText": "背包🎒"
+    "navigationBarTitleText": "背包🎒",
+    "usingComponents": {
+        "list": "/components/list/index"
+    }
 }
