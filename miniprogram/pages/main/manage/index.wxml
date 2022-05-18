@@ -2,7 +2,7 @@
 <view class="integral">🍭：{{userIntegral || 0}}</view>
 
 <view class="container" data-weui-theme="{{theme}}">
-    <view wx:for="{{attribute}}" wx:for-item="attrItem" wx:key="*this" class="box">
+    <view wx:for="{{attribute}}" wx:for-item="attrItem" wx:key="*this" class="box theme-bg-white">
         <view wx:for="{{type}}" wx:for-item="typeItem" wx:key="*this">
             <view class="divider" wx:if="{{typeItem=='weekly'}}"></view>
             <view class="row">
@@ -36,10 +36,10 @@
             <form catchsubmit="add" data-attr="{{attrItem}}" data-type="{{typeItem}}">
                 <view class="row row_detail">
                     <view class="row_width_content">
-                        <input name="name" data-name="name" placeholder="empty" />
+                        <input name="name" data-name="name" placeholder="--" />
                     </view>
                     <view class="row_width_number">
-                        <input name="score" data-name="score" placeholder="empty" />
+                        <input name="score" data-name="score" placeholder="--" />
                     </view>
                     <view class="row_width_action">
                         <button form-type="submit" style="width: 40%;display:inline-block;margin-right:10rpx;" class="button">

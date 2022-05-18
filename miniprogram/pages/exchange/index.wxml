@@ -1,5 +1,5 @@
 <!--pages/reward/index.wxml-->
 <view class="integral">🍭：{{userIntegral || 0}}</view>
-<view>
-    <list bind:submitFunc="submit" types="{{type}}" records="{{records}}" titles="{{titles}}" name_width='70%' content_width='30%'></list>
+<view style="width: 99%;">
+    <list bind:submitFunc="submit" types="{{type}}" records="{{records}}" titles="{{titles}}" theme="{{theme}}" name_width='70%' content_width='30%'></list>
 </view>

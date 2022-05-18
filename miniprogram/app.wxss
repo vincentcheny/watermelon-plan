@@ -1,27 +1,47 @@
 /**app.wxss**/
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
-} 
-
-button {
-  background: initial;
-}
-
-button:focus{
-  outline: 0;
-}
-
-button::after{
-  border: none;
-}
-
 
 page {
-  background: #f6f6f6;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+    background: #F0F0F0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 54rpx;
+}
+
+.theme-bg-white {
+    background-color: #e9e9e9;
+}
+
+.theme-bd-white {
+    border-color: #999999;
+}
+
+.theme-bg-melon {
+    background-color: #c3e2d2;
+}
+
+.theme-bd-melon {
+    border-color: #cca9a9;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.title {
+    font-family: PingFang SC;
+    font-weight: 500;
+    color: #000000;
+    font-size: 44rpx;
+    margin-bottom: 40rpx;
+}
+
+.divider {
+    height: 2rpx;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin-bottom: 10rpx;
 }

@@ -1,35 +1,7 @@
-page {
-    padding-top: 54rpx;
-    background-color: #e9e9e9;
-    padding-bottom: 60rpx;
-}
-
-.title {
-    font-family: PingFang SC;
-    font-weight: 500;
-    color: #000000;
-    font-size: 44rpx;
-    margin-bottom: 40rpx;
-}
-
-.top_tip {
-    font-size: 28rpx;
-    font-family: PingFang SC;
-    font-weight: 400;
-    color: #888888;
-    margin-bottom: 28rpx;
-}
-
-.divider {
-    height: 2rpx;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.1);
-    margin-bottom: 10rpx;
-}
 
 .box {
     text-align: center;
-    background-color: white;
+    border-style: solid;
     margin-top: 30rpx;
     padding-top: 17rpx;
     width: 95%;

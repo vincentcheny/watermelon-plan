@@ -2,6 +2,7 @@
 const {
     envList
 } = require('../../envList.js');
+const app = getApp();
 
 Page({
 
@@ -19,9 +20,6 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad() {
-        this.setData({
-            theme: wx.getSystemInfoSync().theme || 'light'
-        });
         if (wx.onThemeChange) {
             wx.onThemeChange(({
                 theme
@@ -183,6 +181,7 @@ Page({
      */
     onShow: function () {
         this.setData({
+            theme: app.globalData.theme,
             userIntegral: wx.getStorageSync("integral"),
             openid: wx.getStorageSync("openid"),
             userName: wx.getStorageSync("user_name"),

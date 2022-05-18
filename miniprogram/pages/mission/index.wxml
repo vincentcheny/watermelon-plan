@@ -7,7 +7,7 @@
     chartData="{{chartData}}"
   />
 </view> -->
-<view>
+<view style="width: 99%;">
     <list bind:submitFunc="submit" types="{{type}}" records="{{records}}" titles="{{titles}}" name_width='70%' content_width='30%'></list>
 </view>
 

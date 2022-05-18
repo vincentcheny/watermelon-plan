@@ -18,8 +18,7 @@ Page({
             open: false,
             items: [{
                 value: 'white',
-                name: '简约',
-                checked: 'true'
+                name: '简约'
             }, {
                 value: 'melon',
                 name: '西瓜'
@@ -36,8 +35,18 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
-
+    onLoad: function () {
+        const list = this.data.list;
+        for (var i in list[0].items) {
+            if (list[0].items[i].value == app.globalData.theme) {
+                list[0].items[i].checked = true
+            } else {
+                list[0].items[i].checked = false
+            }
+        }
+        this.setData({
+            list
+        })
     },
 
     tagToggle(e) {
@@ -52,7 +61,7 @@ Page({
         })
     },
 
-    radioChange(e){
+    radioChange(e) {
         if (e.currentTarget.dataset.id == 'theme') {
             app.globalData.theme = e.detail.value
             this.setData({

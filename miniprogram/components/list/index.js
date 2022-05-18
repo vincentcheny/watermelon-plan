@@ -37,6 +37,10 @@ Component({
         is_manager: {
             type: Boolean,
             value: false
+        },
+        theme: {
+            type: String,
+            value: 'white'
         }
     },
     /**

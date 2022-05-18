@@ -39,7 +39,6 @@ Page({
                 wx.setStorageSync('envId', this.data.selectedEnv.envId)
                 wx.setStorageSync('user_name', res.userInfo.nickName)
                 wx.setStorageSync('avatar_url', res.userInfo.avatarUrl)
-                wx.setStorageSync('user_gender', res.userInfo.gender)
                 const db = wx.cloud.database();
                 const user = db.collection('user');
                 console.log('Start query user:' + this.data.openid);

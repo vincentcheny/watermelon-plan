@@ -1,12 +1,12 @@
 <!--components/list/index.wxml-->
 
 <view style="width: 100%; margin: auto 20rpx;">
-    <view wx:for="{{types}}" wx:for-item="typeItem" wx:key="*this" class="box">
+    <view wx:for="{{types}}" wx:for-item="typeItem" wx:key="*this" class="box theme-bg-{{theme}} theme-bd-{{theme}}">
         <view class="row">
             <view class="row_title" style="width: {{name_width}};">{{titles[0][typeItem]}}</view>
             <view class="row_title" style="width: {{content_width}};">{{titles[1]}}</view>
         </view>
-        <view class="divider"></view>
+        <view class="divider" wx:if="{{records.length>0}}"></view>
 
         <view wx:for="{{records}}" wx:key="_id">
             <wxs module="fn">
