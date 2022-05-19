@@ -1,3 +1,33 @@
 /* pages/query/index.wxss */
 
-@import "../../common/index.wxss";
+.subject {
+    width: 85%;
+    margin: 20rpx auto;
+}
+
+.tab-title {
+    color: var(--title-color);
+    margin-left: 30rpx;
+    padding-top: 10rpx;
+    font-size: 40rpx;
+    flex: 1;
+    text-align: left;
+    font-weight: bold
+}
+
+.tab-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 30rpx;
+}
+
+.tab-content {
+    overflow: hidden;
+    font-size: 36rpx;
+}
+
+@media (prefers-color-scheme: dark) {
+    .tab-title {
+        color: var(--title-color-dark);
+    }
+}

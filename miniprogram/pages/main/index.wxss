@@ -1,5 +1,4 @@
 /* pages/main/index.wxss */
-@import "../../common/index.wxss";
 
 .elementBox {
     width: 90%;

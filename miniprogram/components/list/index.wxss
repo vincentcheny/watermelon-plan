@@ -1,25 +1,11 @@
 /* components/list/index.wxss */
 
 @import '../../components/common.wxss';
-@import "../../common/index.wxss";
 
-.send-icon>.weui-slideview__btn {
-    background-color: #555555;
-}
-
-.done-icon>.weui-slideview__btn {
-    background-color: #555555;
-    border-style: solid;
-    border-color: #555555;
-}
-.more-icon>.weui-slideview__btn {
-    background-color: #555555;
-}
-.update-icon>.weui-slideview__btn {
-    background-color: #555555;
-}
-.delete-icon>.weui-slideview__btn {
-    background-color: #555555;
+.image_detail {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
 }
 
 .row_detail {

@@ -1,5 +1,4 @@
 /* pages/whisper/index.wxss */
-@import "../../../common/index.wxss";
 
 .textwarp {
     width: 90%;

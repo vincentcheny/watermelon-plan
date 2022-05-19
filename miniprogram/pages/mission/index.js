@@ -2,6 +2,7 @@
 const {
     envList
 } = require('../../envList.js');
+const app = getApp();
 
 Page({
 
@@ -9,7 +10,9 @@ Page({
      * 页面的初始数据
      */
     data: {
-        theme: 'light',
+        theme: 'white',
+        titles: [],
+        icon_type: 'light',
         selectedEnv: envList[0],
         chartData: {},
         type: [],
@@ -39,18 +42,11 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad() {
-        this.setData({
-            theme: wx.getSystemInfoSync().theme || 'light'
-        });
-        if (wx.onThemeChange) {
-            wx.onThemeChange(({
-                theme
-            }) => {
-                this.setData({
-                    theme
-                })
-            })
-        };
+        wx.onThemeChange((res) => {
+            this.setData({
+                icon_type: res.theme == 'dark' ? 'dark' : 'light'
+            });
+        })
         this.refreshList('mission');
     },
 
@@ -114,8 +110,7 @@ Page({
                         this.setData({
                             type: Array.from(type_set).sort(),
                             records: records,
-                            titles: [
-                                {
+                            titles: [{
                                     daily: '每日任务',
                                     weekly: '每周任务',
                                     others: '其它任务'
@@ -225,7 +220,7 @@ Page({
                                 });
                                 wx.setStorageSync('integral', newScore);
                                 wx.hideLoading();
-                                
+
                                 // 成就检测
                                 const achievement = db.collection('achievement');
                                 achievement.where({
@@ -235,7 +230,7 @@ Page({
                                         success: function (res_achi) {
                                             for (var i in res_achi.data) {
                                                 if (res_achi.data[i].type == "score" && res.data.achievement_data.total_integral < res_achi.data[i].num && res.data.achievement_data.total_integral + data.detail.item_score >= res_achi.data[i].num ||
-                                                res_achi.data[i].type == "day" && res.data.achievement_data.cur_mission_combo < res_achi.data[i].num && curCombo >= res_achi.data[i].num) {
+                                                    res_achi.data[i].type == "day" && res.data.achievement_data.cur_mission_combo < res_achi.data[i].num && curCombo >= res_achi.data[i].num) {
                                                     var data_copy = res_achi.data[i];
                                                     db.collection('user')
                                                         .doc(wx.getStorageSync("_id"))
@@ -272,10 +267,18 @@ Page({
      */
     onShow: function () {
         this.setData({
+            theme: app.globalData.theme,
             userIntegral: wx.getStorageSync("integral"),
             openid: wx.getStorageSync("openid"),
             userName: wx.getStorageSync("user_name")
-        })
+        });
+        wx.getSystemInfo({
+            success: (res) => {
+                this.setData({
+                    icon_type: res.theme == 'dark' ? 'dark' : 'light'
+                });
+            }
+        });
     },
 
     /**

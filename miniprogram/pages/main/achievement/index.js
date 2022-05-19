@@ -1,11 +1,11 @@
 // pages/achievement/index.js
+const app = getApp();
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        theme: 'white',
         icon_location: '/../image/theme',
         showIntro: false,
         msg: undefined
@@ -15,17 +15,15 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        if (options.theme) {
-            this.setData({
-                theme: options.theme
-            })
-        }
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
     onShow() {
+        this.setData({
+            theme: app.globalData.theme,
+        })
         const db = wx.cloud.database();
         const user = db.collection('user');
         const achievement = db.collection('achievement');
@@ -66,6 +64,9 @@ Page({
                                     "0a4ec1f9627a122c02d7378025671960",
                                     "058dfefe627a1356025ee56f24f719d0"
                                 ];
+                                var yearIds = [
+                                    "f6e08a6462859d3403e6685317b90903",
+                                ];
                                 for (var id in that.data.achievements) {
                                     if (ids.includes(id)) {
                                         // 高亮已获得成就
@@ -80,6 +81,15 @@ Page({
                                         updateProgress(id, gameItemData[id], that.data.achievements[id].num);
                                     } else if (dayIds.includes(id)) {
                                         updateProgress(id, res_db.data.achievement_data.max_mission_combo, that.data.achievements[id].num);
+                                    } else if (yearIds.includes(id)) {
+                                        let anniversary;
+                                        let today = new Date();
+                                        if (today.getMonth() > 4 || today.getMonth() == 4 && today.getDay() >= 27) {
+                                            anniversary = today.getFullYear() - 2021;
+                                        } else {
+                                            anniversary = today.getFullYear() - 2021 - 1;
+                                        }
+                                        updateProgress(id, anniversary, that.data.achievements[id].num);
                                     }
                                 }
                             },

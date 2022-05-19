@@ -1,8 +1,31 @@
 /* pages/main/manage/index.wxss */
-@import "../../../common/index.wxss";
+
+.button {
+    width: fit-content;
+    padding: 0 15rpx;
+    text-align: center;
+    margin: 0 auto 0 auto;
+    height: 60rpx;
+    color: white;
+    border-radius: 5px;
+    line-height: 60rpx;
+    background-color: #07c160;
+}
 
 .row_detail {
     height: 60px;
     font-size: 36rpx;
     align-items: center;
+}
+
+.row_width_content {
+    width: 50%;
+}
+
+.row_width_number {
+    width: 10%;
+}
+
+.row_width_action {
+    width: 40%;
 }

@@ -21,8 +21,9 @@ Component({
         },
         titles: {
             type: Array,
-            value: [
-                {regular: '名称'},
+            value: [{
+                    regular: '名称'
+                },
                 '内容'
             ]
         },
@@ -34,13 +35,13 @@ Component({
             type: String,
             value: '50%'
         },
-        is_manager: {
-            type: Boolean,
-            value: false
-        },
         theme: {
             type: String,
             value: 'white'
+        },
+        icon_type: {
+            type: String,
+            value: 'light'
         }
     },
     /**
@@ -48,25 +49,34 @@ Component({
      */
     data: {
         selectedEnv: envList[0],
-        slideButtons: [{
-            extClass: 'send-icon',
-            src: '/image/icon/send.svg'
-          }, {
-            extClass: 'more-icon',
-            src: '/image/icon/more.svg'
-          }, {
-            extClass: 'done-icon',
-            src: '/image/icon/done.svg'
-          }, {
-            extClass: 'more-icon',
-            src: '/image/icon/more.svg'
-          }, {
-            extClass: 'update-icon',
-            src: '/image/icon/update.svg'
-          }, {
-            extClass: 'delete-icon',
-            src: '/image/icon/delete.svg'
-          }]
+        slideButtons: {
+            'light': [{
+                extClass: 'icon',
+                src: '/image/icon/send.svg'
+            }, {
+                extClass: 'icon',
+                src: '/image/icon/more.svg'
+            }, {
+                extClass: 'icon',
+                src: '/image/icon/done.svg'
+            }, {
+                extClass: 'icon',
+                src: '/image/icon/more.svg'
+            }],
+            'dark': [{
+                extClass: 'icon',
+                src: '/image/icon/send.svg'
+            }, {
+                extClass: 'icon',
+                src: '/image/icon/more-dark.svg'
+            }, {
+                extClass: 'icon',
+                src: '/image/icon/done-dark.svg'
+            }, {
+                extClass: 'icon',
+                src: '/image/icon/more-dark.svg'
+            }]
+        }
     },
 
     /**

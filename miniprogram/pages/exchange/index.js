@@ -10,27 +10,26 @@ Page({
      * 页面的初始数据
      */
     data: {
-        theme: 'white',
         selectedEnv: envList[0],
         type: [],
         records: [],
+        theme: 'white',
+        titles: [],
+        icon_type: 'light'
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad() {
-        if (wx.onThemeChange) {
-            wx.onThemeChange(({
-                theme
-            }) => {
-                this.setData({
-                    theme
-                })
-            })
-        };
+        wx.onThemeChange((res) => {
+            this.setData({
+                icon_type: res.theme == 'dark' ? 'dark' : 'light'
+            });
+        })
         this.refreshList('reward');
     },
+    
     refreshList(collectionName) {
         wx.showLoading({
             title: '读取任务列表',
@@ -187,6 +186,13 @@ Page({
             userName: wx.getStorageSync("user_name"),
             // userAvatar: undefined
         })
+        wx.getSystemInfo({
+            success: (res) => {
+                this.setData({
+                    icon_type: res.theme == 'dark' ? 'dark' : 'light'
+                });
+            }
+        });
     },
 
     /**

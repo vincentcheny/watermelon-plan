@@ -1,5 +1,4 @@
 /* pages/game/index.wxss */
-@import "../../../common/index.wxss";
 
 .btn {
     margin-top: 80rpx;

@@ -29,6 +29,8 @@
          
          - [x] 成就完成检测
          
+         - [x] 添加成就周年纪念
+         
          - [x] 建立成就数据集合
            1. ```json
               {
@@ -45,38 +47,37 @@
       2. 背包
          - [x]  显示已兑换奖励
          - [x]  显示记录时间
-
+      
       3. 悄悄话
          - [x] 备忘录
          - [x] 保存提示
-
+      
       4. 游戏
          - [x] 随机增减积分
 
       5. TODO list
 
       6. 管理员编辑
-
+      
          - [x] mission和reward的增删查改
          - [ ] ~~用户自由绑定管理员~~
 
       7. 近2天完成情况报告
-
+      
    3. 任务（mission）
       - [x]  日常任务
       - [x]  周常任务
       - [ ]  完成记录（看下7天折线图是否容易实现）
-
+   
    4. 奖励（exchange）
       - [x]  日常奖励
       - [x]  周常奖励
-
+   
    5. 我的（profile）
       
       - [x] 构建设置页面
-      - [ ] 颜色主题（暗黑、简白、黛西、星之卡比和玉桂狗）带图标
+      - [ ] 颜色主题（暗黑、简白、星之卡比和玉桂狗）带图标
         - [获取当前主题](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getSystemInfoSync.html)
-        - [跨页面传参](https://www.jianshu.com/p/49f0e3bade27)
       
    6. 未来功能
       1. [绑定另一半并通过小程序订阅功能推送提醒](https://www.zhihu.com/question/52719661)

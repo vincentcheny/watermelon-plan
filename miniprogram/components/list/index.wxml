@@ -1,27 +1,21 @@
 <!--components/list/index.wxml-->
 
 <view style="width: 100%; margin: auto 20rpx;">
-    <view wx:for="{{types}}" wx:for-item="typeItem" wx:key="*this" class="box theme-bg-{{theme}} theme-bd-{{theme}}">
+    <view wx:for="{{types}}" wx:for-item="typeItem" wx:key="*this" class="box theme-{{theme}}">
         <view class="row">
             <view class="row_title" style="width: {{name_width}};">{{titles[0][typeItem]}}</view>
             <view class="row_title" style="width: {{content_width}};">{{titles[1]}}</view>
         </view>
-        <view class="divider" wx:if="{{records.length>0}}"></view>
-
         <view wx:for="{{records}}" wx:key="_id">
             <wxs module="fn">
                 module.exports = {
-                    slice: function (arr, is_finished, is_manager) {
-                        if (is_manager) {
-                            return arr.slice(4,6);
-                        } else {
-                            return is_finished?arr.slice(2,4):arr.slice(0,2);
-                        }
+                    slice: function (arr, is_finished) {
+                        return is_finished?arr.slice(2,4):arr.slice(0,2);
                     }
                 }
             </wxs>
-            <mp-slideview buttons="{{fn.slice(slideButtons,item.is_finished,is_manager)}}" icon="{{true}}" bindbuttontap="slideButtonTap" data-id="{{item._id}}" data-content="{{item.content}}" data-type="{{item.type}}" data-name="{{item.name}}" data-time="{{item.exacttime}}">
-                <view class="row row_detail" wx:if="{{item.type == typeItem}}">
+            <mp-slideview wx:if="{{item.type == typeItem}}" buttons="{{fn.slice(slideButtons[icon_type],item.is_finished)}}" icon="{{true}}" bindbuttontap="slideButtonTap" data-id="{{item._id}}" data-content="{{item.content}}" data-type="{{item.type}}" data-name="{{item.name}}" data-time="{{item.exacttime}}">
+                <view class="row row_detail">
                     <view style="width: {{name_width}};">
                         <image wx:if="{{item.mission_image}}" class="image_detail" mode="scaleToFill" src="{{item.mission_image}}"></image>
                         {{item.name}}

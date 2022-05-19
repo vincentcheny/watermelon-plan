@@ -1,5 +1,4 @@
 /* pages/bag/index.wxss */
-@import "../../../common/index.wxss";
 
 .row_width_content {
     width: 30%;

@@ -1,11 +1,11 @@
 <!--pages/query/index.wxml-->
 {{theme}}
-<view class="box theme-bg-{{theme}} theme-bd-{{theme}}" style="width: 85%;margin: 20rpx auto;" wx:for="{{list}}" wx:key="id" wx:for-item="subject" >
-        <view style="display: flex;margin-bottom: {{subject.open?0:20}}rpx;" bindtap="tagToggle" data-id="{{subject.id}}">
-            <view style="margin-left: 30rpx; padding-top: 10rpx; font-size: 40rpx;flex: 1;text-align: left;font-weight:bold">{{subject.name}}</view>
-            <image style="width: 40px;height:40px;margin-right: 30rpx;" src="{{subject.icon}}"></image>
+<view class="box theme-{{theme}} subject" wx:for="{{list}}" wx:key="id" wx:for-item="subject" >
+        <view style="display: flex;margin-bottom: {{subject.open?0:20}}rpx;" bindtap="tabToggle" data-id="{{subject.id}}">
+            <view class="tab-title">{{subject.name}}</view>
+            <image class="tab-icon" src="{{subject.icon}}"></image>
         </view>
-        <view style="overflow: hidden;height: {{subject.open?auto:0}};font-size: 36rpx;">
+        <view class="tab-content" style="height: {{subject.open?auto:0}};">
             <radio-group bindchange="radioChange" data-id="{{subject.id}}">
                 <label class="weui-cell weui-check__label" wx:for="{{subject.items}}" wx:key="value">
                     <view class="weui-cell__hd">

@@ -1,6 +1,4 @@
 /* pages/achievement/index.wxss */
-@import "../../../common/index.wxss";
-
 @font-face {
     font-family: 'iconfont';
     /* project id 3394868 */

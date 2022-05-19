@@ -1,10 +1,10 @@
 const {
     envList
 } = require('../../envList.js');
+const app = getApp();
 
 Page({
     data: {
-        theme: 'light',
         envList,
         selectedEnv: envList[0],
         haveCreateCollection: false,
@@ -15,18 +15,6 @@ Page({
     },
 
     onLoad() {
-        this.setData({
-            theme: wx.getSystemInfoSync().theme || 'light'
-        });
-        if (wx.onThemeChange) {
-            wx.onThemeChange(({
-                theme
-            }) => {
-                this.setData({
-                    theme
-                })
-            })
-        };
         this.getOpenId();
     },
 
@@ -76,7 +64,8 @@ Page({
                                             total_integral: 0,
                                             max_mission_combo: 0
                                         },
-                                        achievement: []
+                                        achievement: [],
+                                        theme: 'white'
                                     }
                                 })
                                 console.log('Add a new record.');
@@ -136,7 +125,8 @@ Page({
                                         total_integral: 0,
                                         max_mission_combo: 0
                                     },
-                                    achievement: []
+                                    achievement: [],
+                                    theme: 'white'
                                 }
                             });
                             console.log('finish adding user info');
@@ -222,6 +212,7 @@ Page({
                 wx.setStorageSync('_id', resp.result.data[0]._id)
                 wx.setStorageSync('user_name', resp.result.data[0].user_name);
                 wx.setStorageSync('integral', resp.result.data[0].user_integral);
+                app.globalData.theme = resp.result.data[0].theme;
                 wx.switchTab({
                     url: `../main/index`,
                 });

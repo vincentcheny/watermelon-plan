@@ -9,7 +9,6 @@ Page({
      * 页面的初始数据
      */
     data: {
-        theme: 'no',
         selectedEnv: envList[0],
         list: [{
             id: 'theme',
@@ -18,7 +17,7 @@ Page({
             open: false,
             items: [{
                 value: 'white',
-                name: '简约'
+                name: '灰度'
             }, {
                 value: 'melon',
                 name: '西瓜'
@@ -49,7 +48,7 @@ Page({
         })
     },
 
-    tagToggle(e) {
+    tabToggle(e) {
         const list = this.data.list;
         for (var i in list) {
             if (list[i].id == e.currentTarget.dataset.id) {
@@ -63,10 +62,31 @@ Page({
 
     radioChange(e) {
         if (e.currentTarget.dataset.id == 'theme') {
-            app.globalData.theme = e.detail.value
-            this.setData({
-                theme: e.detail.value
+            wx.showLoading({
+                title: '更新主题中...',
+            });
+            const db = wx.cloud.database({
+                env: this.data.selectedEnv.envId
             })
+            var that = this;
+            db.collection('user')
+                .doc(wx.getStorageSync("_id"))
+                .update({
+                    data: {
+                        theme: e.detail.value
+                    },
+                    success: (res) => {
+                        app.globalData.theme = e.detail.value;
+                        that.setData({
+                            theme: e.detail.value
+                        });
+                        wx.hideLoading();
+                    },
+                    fail: (res) => {
+                        console.error(res);
+                        wx.hideLoading();
+                    }
+                })
         }
     },
     /**
@@ -80,7 +100,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+        this.setData({
+            theme: app.globalData.theme
+        })
     },
 
     /**
