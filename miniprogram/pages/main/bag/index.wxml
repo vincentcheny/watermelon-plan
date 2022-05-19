@@ -1,5 +1,5 @@
 <!--pages/bag/index.wxml-->
 <view class="integral">🍭：{{userIntegral || 0}}</view>
 <view style="width: 99%;">
-    <list bind:submitFunc="submit" types="{{type}}" records="{{records}}" titles="{{titles}}" theme="{{theme}}" name_width='30%' content_width='70%'></list>
+    <list bind:submitFunc="submit" types="{{type}}" records="{{records}}" titles="{{titles}}" theme="{{theme}}" icon_type="{{icon_type}}" name_width='30%' content_width='70%'></list>
 </view>

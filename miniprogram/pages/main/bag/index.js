@@ -10,8 +10,12 @@ Page({
      * 页面的初始数据
      */
     data: {
-        theme: 'light',
+        theme: 'white',
         selectedEnv: envList[0],
+        records: [],
+        titles: [],
+        type: [],
+        icon_type: 'light'
     },
 
     /**
@@ -45,6 +49,13 @@ Page({
     onShow() {
         this.setData({
             theme: app.globalData.theme
+        });
+        wx.getSystemInfo({
+            success: (res) => {
+                this.setData({
+                    icon_type: res.theme == 'dark' ? 'dark' : 'light'
+                });
+            }
         });
         this.refreshBag();
     },

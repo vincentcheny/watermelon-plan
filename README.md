@@ -76,7 +76,7 @@
    5. 我的（profile）
       
       - [x] 构建设置页面
-      - [ ] 颜色主题（暗黑、简白、星之卡比和玉桂狗）带图标
+      - [x] 颜色主题（暗黑、简白、星之卡比和玉桂狗）带图标
         - [获取当前主题](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getSystemInfoSync.html)
       
    6. 未来功能
@@ -98,7 +98,6 @@
 
    ```sequence
    设计成就奖励 -> 成就奖励主题预览图:
-   多颜色主题 -> 成就奖励主题预览图:
    替换成云函数 -> 记录所有数据库操作:
    记录所有数据库操作 -> 完成记录折线图: 
    Note left of 用户自由绑定管理员: /
