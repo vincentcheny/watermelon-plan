@@ -7,7 +7,6 @@ Page({
     data: {
         envList,
         selectedEnv: envList[0],
-        haveCreateCollection: false,
         userIntegral: 0,
         userName: undefined,
         openid: undefined,
@@ -23,59 +22,74 @@ Page({
             desc: '用于完善会员资料',
             success: (res) => {
                 // set global info
+                console.log('Start query user:' + this.data.openid);
                 wx.setStorageSync('openid', this.data.openid)
                 wx.setStorageSync('envId', this.data.selectedEnv.envId)
                 wx.setStorageSync('user_name', res.userInfo.nickName)
                 wx.setStorageSync('avatar_url', res.userInfo.avatarUrl)
-                const db = wx.cloud.database();
-                const user = db.collection('user');
-                console.log('Start query user:' + this.data.openid);
-                var query_openid = this.data.openid
                 var that = this;
-                var curtime = new Date()/1;
-                user.where({
-                        _openid: query_openid
+                var today = new Date() / 1;
+                var yesterday = new Date();
+                yesterday = yesterday.setDate(yesterday.getDate() - 1);
+                wx.cloud.callFunction({
+                        name: 'quickstartFunctions',
+                        config: {
+                            env: this.data.selectedEnv.envId
+                        },
+                        data: {
+                            type: 'getUserByOpenId',
+                            data: {
+                                openid: this.data.openid
+                            }
+                        }
                     })
-                    .get({
-                        success: function (db_res) {
-                            // db_res.data 是包含以上定义的两条记录的数组
-                            if (db_res.data.length == 0) {
-                                console.log('Start adding records');
-                                user.add({
+                    .then((db_res) => {
+                        // db_res.result.data 是包含以上定义的两条记录的数组
+                        if (db_res.result.data.length == 0) {
+                            console.log('Start adding records');
+                            wx.cloud.callFunction({
+                                    name: 'quickstartFunctions',
+                                    config: {
+                                        env: that.data.selectedEnv.envId
+                                    },
                                     data: {
-                                        avatar_url: res.userInfo.avatarUrl,
-                                        user_integral: 0,
-                                        user_name: res.userInfo.nickName,
-                                        user_gender: res.userInfo.gender,
-                                        daily_mission: {},
-                                        weekly_mission: {},
-                                        daily_reward: {},
-                                        weekly_reward: {},
-                                        update_time: curtime,
-                                        message: '',
-                                        gamble_combo: 0,
-                                        gamble_limit: 8,
-                                        achievement_data: {
-                                            num_game: 0,
-                                            num_200_game: 0,
-                                            num_1000_game: 0,
-                                            last_mission: curtime,
-                                            cur_mission_combo: 0,
-                                            total_integral: 0,
-                                            max_mission_combo: 0
-                                        },
-                                        achievement: [],
-                                        theme: 'white'
+                                        type: 'addUser',
+                                        data: {
+                                            openid: that.data.openid,
+                                            avatar_url: res.userInfo.avatarUrl,
+                                            user_name: res.userInfo.nickName,
+                                            user_gender: res.userInfo.gender,
+                                            today: today,
+                                            yesterday: yesterday
+                                        }
                                     }
                                 })
-                                console.log('Add a new record.');
-                            } else if (
-                                db_res.data[0].user_name !== res.userInfo.nickName ||
-                                db_res.data[0].avatar_url !== res.userInfo.avatarUrl ||
-                                db_res.data[0].user_gender !== res.userInfo.gender
+                                .then((add_res) => {
+                                    console.log('Add a new record.');
+                                    wx.setStorageSync('_id', add_res.result._id);
+                                    wx.setStorageSync('integral', 0);
+                                    wx.setStorageSync('whisper_text', '');
+                                    app.globalData.theme = 'white';
+                                    wx.switchTab({
+                                        url: `../main/index`,
+                                    });
+                                })
+                        } else {
+                            let db_user = db_res.result.data[0];
+                            wx.setStorageSync('_id', db_user._id)
+                            wx.setStorageSync('integral', db_user.user_integral);
+                            wx.setStorageSync('whisper_text', db_user.message);
+                            app.globalData.theme = db_user.theme;
+                            if (
+                                db_user.user_name !== res.userInfo.nickName ||
+                                db_user.avatar_url !== res.userInfo.avatarUrl ||
+                                db_user.user_gender !== res.userInfo.gender
                             ) {
                                 console.log('Start updating records');
-                                user.doc(db_res.data[0]._id).update({
+                                wx.setStorageSync('user_name', res.userInfo.nickName);
+                                const db = wx.cloud.database();
+                                const user = db.collection('user');
+                                user.doc(db_user._id).update({
                                     data: {
                                         user_name: res.userInfo.nickName,
                                         avatar_url: res.userInfo.avatarUrl,
@@ -83,58 +97,56 @@ Page({
                                     },
                                     success: function (res) {
                                         console.log('Update personal data successfully.');
-                                        this.setData({
+                                        that.setData({
                                             userName: res.userInfo.nickName
                                         });
                                         console.log('Update a record.');
+                                        wx.switchTab({
+                                            url: `../main/index`,
+                                        });
                                     },
                                     fail: function (res) {
                                         console.log('Fail to update personal data.');
                                         console.log(res);
                                     }
-                                })
+                                });
                             } else {
                                 console.log('No need to update personal info in DB.');
+                                wx.switchTab({
+                                    url: `../main/index`,
+                                });
                             }
-                            that.refreshUser();
-                        },
-                        fail: function (db_res) {
-                            console.log('Fail to query user information from database "user". Create a new record.');
-                            const db = wx.cloud.database();
-                            const user = db.collection('user');
-                            user.add({
-                                data: {
-                                    avatar_url: res.userInfo.avatarUrl,
-                                    user_integral: 0,
-                                    user_name: res.userInfo.nickName,
-                                    user_gender: res.userInfo.gender,
-                                    daily_mission: {},
-                                    weekly_mission: {},
-                                    daily_reward: {},
-                                    weekly_reward: {},
-                                    update_time: curtime,
-                                    message: '',
-                                    gamble_combo: 0,
-                                    gamble_limit: 8,
-                                    achievement_data: {
-                                        num_game: 0,
-                                        num_200_game: 0,
-                                        num_1000_game: 0,
-                                        last_mission: curtime,
-                                        cur_mission_combo: 0,
-                                        total_integral: 0,
-                                        max_mission_combo: 0
-                                    },
-                                    achievement: [],
-                                    theme: 'white'
-                                }
-                            });
-                            console.log('finish adding user info');
-                            
-                            wx.switchTab({
-                                url: `../main/index`,
-                            });
                         }
+                    })
+                    .catch((e) => {
+                        console.log('Fail to query user information from database "user". Create a new record. ', e);
+                        wx.cloud.callFunction({
+                                name: 'quickstartFunctions',
+                                config: {
+                                    env: that.data.selectedEnv.envId
+                                },
+                                data: {
+                                    type: 'addUser',
+                                    data: {
+                                        openid: that.data.openid,
+                                        avatar_url: res.userInfo.avatarUrl,
+                                        user_name: res.userInfo.nickName,
+                                        user_gender: res.userInfo.gender,
+                                        today: today,
+                                        yesterday: yesterday
+                                    }
+                                }
+                            })
+                            .then((add_res) => {
+                                console.log('Add a new record.');
+                                wx.setStorageSync('_id', add_res.result._id);
+                                wx.setStorageSync('integral', 0);
+                                wx.setStorageSync('whisper_text', '');
+                                app.globalData.theme = 'white';
+                                wx.switchTab({
+                                    url: `../main/index`,
+                                });
+                            })
                     })
             },
             fail: (res) => {
@@ -209,20 +221,13 @@ Page({
                 if (resp.result.data.length == 0) {
                     throw new Error("Return list is empty. No corresponding openid in the database.")
                 }
-                wx.setStorageSync('_id', resp.result.data[0]._id)
-                wx.setStorageSync('user_name', resp.result.data[0].user_name);
-                wx.setStorageSync('integral', resp.result.data[0].user_integral);
-                app.globalData.theme = resp.result.data[0].theme;
-                wx.switchTab({
-                    url: `../main/index`,
-                });
+
             }).catch((e) => {
                 console.log(e);
             });
     },
-    onShow: function () {
-    },
-    
+    onShow: function () {},
+
     jumpPage(e) {
         wx.navigateTo({
             url: `/pages/${e.currentTarget.dataset.page}/index?envId=${this.data.selectedEnv.envId}`,

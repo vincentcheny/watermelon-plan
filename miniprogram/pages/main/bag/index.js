@@ -98,8 +98,9 @@ Page({
                 this.setData({
                     type: ['regular'],
                     records: records,
-                    titles: [
-                        {regular: '奖励名称'},
+                    titles: [{
+                            regular: '奖励名称'
+                        },
                         '兑换时间'
                     ]
                 });

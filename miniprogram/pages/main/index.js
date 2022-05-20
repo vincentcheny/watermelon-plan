@@ -31,7 +31,15 @@ Page({
         },
     },
 
-    getAnniversary(date, year=2021, month=5, day=27) {
+    onLoad(options) {
+        this.setData({
+            openid: wx.getStorageSync("openid"),
+            userName: wx.getStorageSync("user_name"),
+        });
+        this.anniversaryCheck();
+    },
+
+    getAnniversary(date, year = 2021, month = 5, day = 27) {
         let anniversary;
         if (date.getMonth() > month || date.getMonth() == month && date.getDay() >= day) {
             anniversary = date.getFullYear() - year;
@@ -40,50 +48,50 @@ Page({
         }
         return anniversary
     },
-
-    onLoad(options) {
-        this.setData({
-            openid: wx.getStorageSync("openid"),
-            userName: wx.getStorageSync("user_name"),
-        });
-        // 周年成就检测
+    
+    anniversaryCheck() {
         const db = wx.cloud.database({
             env: this.data.selectedEnv.envId
         })
-        const achievement = db.collection('achievement');
-        achievement.where({
-                type: "year"
-            })
-            .get({
-                success: function (res_achi) {
-                    let yesterday = new Date();
-                    let new_anni = this.getAnniversary(yesterday);
-                    yesterday.setDate(yesterday.getDate()-1);
-                    let old_anni = this.getAnniversary(yesterday);
-                    for (var i in res_achi.data) {
-                        if (old_anni < res_achi.data[i].num && new_anni >= res_achi.data[i].num) {
-                            var data_copy = res_achi.data[i];
-                            db.collection('user')
-                                .doc(wx.getStorageSync("_id"))
-                                .update({
-                                    data: {
-                                        achievement: db.command.push([data_copy._id]),
-                                    },
-                                    success: (res) => {
-                                        wx.showModal({
-                                            title: '╰(*°▽°*)╯恭喜！',
-                                            content: wx.getStorageSync("user_name") + ' 达成成就"' + data_copy.title + '"（' + data_copy.desc + '）',
-                                            showCancel: false
-                                        });
-                                    },
-                                    fail: (res) => {
-                                        console.error(res);
-                                    }
-                                });
-                        }
-                    }
+        wx.cloud.callFunction({
+            name: 'quickstartFunctions',
+            config: {
+                env: this.data.selectedEnv.envId
+            },
+            data: {
+                type: 'getAchievementByType',
+                data: {
+                    type: "year"
                 }
-            })
+            }
+        }).then((res_achi) => {
+            let yesterday = new Date();
+            let new_anni = this.getAnniversary(yesterday);
+            yesterday.setDate(yesterday.getDate() - 1);
+            let old_anni = this.getAnniversary(yesterday);
+            for (var i in res_achi.data) {
+                if (old_anni < res_achi.data[i].num && new_anni >= res_achi.data[i].num) {
+                    var data_copy = res_achi.data[i];
+                    db.collection('user')
+                        .doc(wx.getStorageSync("_id"))
+                        .update({
+                            data: {
+                                achievement: db.command.push([data_copy._id]),
+                            },
+                            success: (res) => {
+                                wx.showModal({
+                                    title: '╰(*°▽°*)╯恭喜！',
+                                    content: wx.getStorageSync("user_name") + ' 达成成就"' + data_copy.title + '"（' + data_copy.desc + '）',
+                                    showCancel: false
+                                });
+                            },
+                            fail: (res) => {
+                                console.error(res);
+                            }
+                        });
+                }
+            }
+        })
     },
 
     onShow: function () {

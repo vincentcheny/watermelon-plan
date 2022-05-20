@@ -1,5 +1,5 @@
 <!--pages/query/index.wxml-->
-{{theme}}
+
 <view class="box theme-{{theme}} subject" wx:for="{{list}}" wx:key="id" wx:for-item="subject" >
         <view style="display: flex;margin-bottom: {{subject.open?0:20}}rpx;" bindtap="tabToggle" data-id="{{subject.id}}">
             <view class="tab-title">{{subject.name}}</view>

@@ -12,23 +12,28 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        const db = wx.cloud.database();
-        const user = db.collection('user');
         var that = this;
-        user.where({
-                _openid: wx.getStorageSync("openid")
-            })
-            .get({
-                success: function (db_res) {
-                    if (db_res.data.length > 0) {
-                        that.setData({
-                            whisperText: db_res.data[0].message
-                        });
-                    }
+        wx.cloud.callFunction({
+                name: 'quickstartFunctions',
+                config: {
+                    env: this.data.selectedEnv.envId
                 },
-                fail: function (db_res) {
-                    console.log("Fail querying the message from db user");
+                data: {
+                    type: 'getUserByOpenId',
+                    data: {
+                        openid: this.data.openid
+                    }
                 }
+            })
+            .then((resp) => {
+                if (resp.result.data.length > 0) {
+                    that.setData({
+                        whisperText: resp.result.data[0].message
+                    });
+                }
+
+            }).catch((e) => {
+                console.log("Fail querying the message from db user. ", e);
             })
     },
 
@@ -64,8 +69,7 @@ Page({
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow() {
-    },
+    onShow() {},
 
     /**
      * 生命周期函数--监听页面隐藏
