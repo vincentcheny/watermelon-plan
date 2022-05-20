@@ -6,6 +6,7 @@ const app = getApp();
 Page({
     data: {
         envList,
+        theme: 'white',
         selectedEnv: envList[0],
         userIntegral: 0,
         userName: undefined,

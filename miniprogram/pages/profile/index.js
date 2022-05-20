@@ -9,6 +9,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        theme: 'white',
         selectedEnv: envList[0],
         list: [{
             id: 'theme',
@@ -44,7 +45,8 @@ Page({
             }
         }
         this.setData({
-            list
+            list,
+            theme: app.globalData.theme
         })
     },
 

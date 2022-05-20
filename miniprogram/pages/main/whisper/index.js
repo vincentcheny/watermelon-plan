@@ -1,17 +1,28 @@
 // pages/whisper/index.js
+const {
+    envList
+} = require('../../../envList.js');
+const app = getApp();
+
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        whisperText: ""
+        whisperText: "",
+        theme: 'white',
+        selectedEnv: envList[0],
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
+        this.setData({
+            openid: wx.getStorageSync("openid"),
+            theme: app.globalData.theme
+        });
         var that = this;
         wx.cloud.callFunction({
                 name: 'quickstartFunctions',

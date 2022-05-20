@@ -1,16 +1,19 @@
 <!--index.wxml-->
-<view class="container" data-weui-theme="{{theme}}">
-    <!-- <image class="avatar" mode="scaleToFill" src="{{userAvatar}}"></image> -->
-    <view class="title">
-        {{userName}}の积分：{{userIntegral || 0}}
-    </view>
-    <view class="elementBox">
-        <view wx:for="{{homeElement}}" wx:for-item="typeItem" wx:key="index" class="element">
-            <view bindtap="jumpPage" data-page="{{'main/'+index}}">
-                <image class="element_img" mode="aspectFit" src="{{typeItem.icon}}"></image>
-                <br/>
-                {{typeItem.name}}
+<block>
+    <image class="bg-image" mode="widthFix" src="cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/bg-{{theme}}.jpg"></image>
+    <view class="container" data-weui-theme="{{theme}}">
+        <!-- <image class="avatar" mode="scaleToFill" src="{{userAvatar}}"></image> -->
+        <view class="title">
+            {{userName}}の积分：{{userIntegral || 0}}
+        </view>
+        <view class="elementBox">
+            <view wx:for="{{homeElement}}" wx:for-item="typeItem" wx:key="index" class="element">
+                <view bindtap="jumpPage" data-page="{{'main/'+index}}">
+                    <image class="element_img" mode="aspectFit" src="{{typeItem.icon}}"></image>
+                    <br />
+                    {{typeItem.name}}
+                </view>
             </view>
         </view>
     </view>
-</view>
+</block>

@@ -1,14 +1,15 @@
 <!--pages/exchange/index.wxml-->
-<view class="integral">🍭：{{userIntegral || 0}}</view>
-<!-- <view class="charts-box">
-  <qiun-wx-ucharts 
-    type="line"
-    opts="{{opts}}"
-    chartData="{{chartData}}"
-  />
-</view> -->
-<view style="width: 99%;">
-    <list bind:submitFunc="submit" types="{{type}}" records="{{records}}" titles="{{titles}}" theme="{{theme}}" icon_type="{{icon_type}}" name_width='70%' content_width='30%'></list>
-</view>
-
-
+<block>
+    <image class="bg-image" mode="widthFix" src="cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/bg-{{theme}}.jpg"></image>
+    <view class="integral">🍭：{{userIntegral || 0}}</view>
+    <!-- <view class="charts-box">
+    <qiun-wx-ucharts 
+        type="line"
+        opts="{{opts}}"
+        chartData="{{chartData}}"
+    />
+    </view> -->
+    <view style="width: 99%;">
+        <list bind:submitFunc="submit" types="{{type}}" records="{{records}}" titles="{{titles}}" theme="{{theme}}" icon_type="{{icon_type}}" name_width='70%' content_width='30%'></list>
+    </view>
+</block>

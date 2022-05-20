@@ -9,6 +9,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        theme: 'white',
         selectedEnv: envList[0],
         icon_location: '/../image/theme',
         showIntro: false,

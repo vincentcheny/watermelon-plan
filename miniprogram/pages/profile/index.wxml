@@ -1,6 +1,7 @@
 <!--pages/query/index.wxml-->
-
-<view class="box theme-{{theme}} subject" wx:for="{{list}}" wx:key="id" wx:for-item="subject" >
+<block>
+    <image class="bg-image" mode="widthFix" src="cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/bg-{{theme}}.jpg"></image>
+    <view class="box theme-{{theme}} subject" wx:for="{{list}}" wx:key="id" wx:for-item="subject">
         <view style="display: flex;margin-bottom: {{subject.open?0:20}}rpx;" bindtap="tabToggle" data-id="{{subject.id}}">
             <view class="tab-title">{{subject.name}}</view>
             <image class="tab-icon" src="{{subject.icon}}"></image>
@@ -15,4 +16,5 @@
                 </label>
             </radio-group>
         </view>
-</view>
+    </view>
+</block>

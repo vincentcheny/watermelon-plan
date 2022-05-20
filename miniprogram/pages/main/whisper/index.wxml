@@ -1,11 +1,12 @@
 <!--pages/whisper/index.wxml-->
-
-<view class="container" data-weui-theme="{{theme}}">
-    <view class="textwarp">
-        <form catchsubmit="formSubmit" catchreset="formReset">
-            <textarea auto-height value="{{whisperText}}" class="whisperText" placeholder="可以在这里写下悄悄话~" name="textarea" auto-focus/>
-            <button style="margin-bottom: 30rpx;" type="primary" form-type="submit"> 保存 </button>
-        </form>
+<block>
+    <image class="bg-image" mode="widthFix" src="cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/bg-{{theme}}.jpg"></image>
+    <view class="container">
+        <view class="textwarp">
+            <form catchsubmit="formSubmit" catchreset="formReset">
+                <textarea auto-height value="{{whisperText}}" class="whisperText" placeholder="可以在这里写下悄悄话~" name="textarea" auto-focus />
+                <button style="margin-bottom: 30rpx;" type="primary" form-type="submit"> 保存 </button>
+            </form>
+        </view>
     </view>
-    
-</view>
+</block>
