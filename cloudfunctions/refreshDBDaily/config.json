@@ -5,7 +5,7 @@
     },
     "triggers": [
         {
-          "name": "refreshTrigger",
+          "name": "dailyRefreshTrigger",
           "type": "timer",
           "config": "0 0 0 * * * *"
         }
