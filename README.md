@@ -85,15 +85,33 @@
    7. 短期TODO
 
       - [ ] 添加record数据集合记录所有改变数据库的操作
+      
       - [x] 使用progress代替成就页面的divider
+      
       - [x] 将数据库调用替换成云函数，[理由](https://developers.weixin.qq.com/community/develop/doc/00008603b683680f5d4caf69355c00)
+      
       - [x] 将管理页面以外的列表显示部分提取成 Component
+      
       - [ ] 设计成就奖励
+      
       - [x] 九宫格grid显示首页
+      
       - [ ] ~~使用原生icon~~
+      
       - [x] 右划操作列表
+      
       - [ ] ~~editor替换textarea~~
+      
       - [ ] 全局主题背景和对应标签栏图标
+      
+        - 准备图标
+      
+        - 首页和profile根据主题切换设置图标，注意暗黑模式的捕获
+        - 尝试点击时进行同一图标的大小切换
+      
+      - [x] TODO-List
+      
+      - [ ] 填充列表中的更多信息
    
 3. 待做任务优先级
 

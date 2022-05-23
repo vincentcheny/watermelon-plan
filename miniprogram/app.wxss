@@ -120,7 +120,7 @@ page {
     top: 0;
     width: 100%;
     position: fixed;
-    opacity: 0.05;
+    opacity: 0.15;
     z-index: -1;
 }
 

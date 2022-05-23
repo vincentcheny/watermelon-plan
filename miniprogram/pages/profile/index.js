@@ -83,6 +83,16 @@ Page({
                             theme: e.detail.value
                         });
                         wx.hideLoading();
+                        let text = ['首页','任务','兑换','我的']
+                        for (let i=0;i<4;i++) {
+                            wx.setTabBarItem({
+                                index: i,
+                                text: text[i],
+                                iconPath: '/image/theme/'+e.detail.value+'/tabbar-'+i+'.png',
+                                selectedIconPath: '/image/theme/'+e.detail.value+'/tabbar-'+i+'-selected.png'
+                            })
+                        }
+                        
                     },
                     fail: (res) => {
                         console.error(res);
