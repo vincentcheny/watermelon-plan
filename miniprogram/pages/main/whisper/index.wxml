@@ -5,7 +5,7 @@
         <view class="textwarp">
             <form catchsubmit="formSubmit" catchreset="formReset">
                 <textarea auto-height value="{{whisperText}}" class="whisperText" placeholder="可以在这里写下悄悄话~" name="textarea" auto-focus />
-                <button style="margin-bottom: 30rpx;" type="primary" form-type="submit"> 保存 </button>
+                <button style="margin-bottom: 30rpx;background-color: {{rgb[theme]}};" type="primary" form-type="submit"> 保存 </button>
             </form>
         </view>
     </view>

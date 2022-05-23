@@ -13,6 +13,12 @@ Page({
         whisperText: "",
         theme: 'white',
         selectedEnv: envList[0],
+        rgb: {
+            white: '#aa9aaa',
+            melon: '#07c160',
+            dog: '#4eb4dd',
+            star: '#c2a2a8'
+        }
     },
 
     /**

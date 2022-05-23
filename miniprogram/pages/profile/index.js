@@ -18,10 +18,10 @@ Page({
             open: false,
             items: [{
                 value: 'white',
-                name: '灰度'
+                name: '灰玫瑰'
             }, {
                 value: 'melon',
-                name: '西瓜'
+                name: '西西瓜'
             }, {
                 value: 'dog',
                 name: '玉桂狗'
@@ -84,15 +84,25 @@ Page({
                         });
                         wx.hideLoading();
                         let text = ['首页','任务','兑换','我的']
-                        for (let i=0;i<4;i++) {
-                            wx.setTabBarItem({
-                                index: i,
-                                text: text[i],
-                                iconPath: '/image/theme/'+e.detail.value+'/tabbar-'+i+'.png',
-                                selectedIconPath: '/image/theme/'+e.detail.value+'/tabbar-'+i+'-selected.png'
-                            })
+                        if (['white','melon'].includes(e.detail.value)) {
+                            for (let i=0;i<4;i++) {
+                                wx.setTabBarItem({
+                                    index: i,
+                                    text: text[i],
+                                    iconPath: '/image/icon/tabbar-'+i+'.svg',
+                                    selectedIconPath: '/image/icon/tabbar-'+i+'-selected.svg',
+                                })
+                            }
+                        } else {
+                            for (let i=0;i<4;i++) {
+                                wx.setTabBarItem({
+                                    index: i,
+                                    text: text[i],
+                                    iconPath: '/image/theme/'+e.detail.value+'/tabbar-'+i+'.png',
+                                    selectedIconPath: '/image/theme/'+e.detail.value+'/tabbar-'+i+'-selected.png'
+                                })
+                            }
                         }
-                        
                     },
                     fail: (res) => {
                         console.error(res);

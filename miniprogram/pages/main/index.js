@@ -36,6 +36,15 @@ Page({
     },
 
     onLoad(options) {
+        let text = ['首页', '任务', '兑换', '我的']
+        for (let i = 0; i < 4; i++) {
+            wx.setTabBarItem({
+                index: i,
+                text: text[i],
+                iconPath: '/image/icon/tabbar-' + i + '.svg',
+                selectedIconPath: '/image/icon/tabbar-' + i + '-selected.svg',
+            })
+        }
         this.setData({
             openid: wx.getStorageSync("openid"),
             userName: wx.getStorageSync("user_name"),
@@ -52,7 +61,7 @@ Page({
         }
         return anniversary
     },
-    
+
     anniversaryCheck() {
         const db = wx.cloud.database({
             env: this.data.selectedEnv.envId
