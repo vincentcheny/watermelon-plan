@@ -20,7 +20,7 @@
                         </view>
                         <view class="row_width_number" bindtap="enableEdit" data-type="Score" data-id="{{item._id}}">
                             <view wx:if="{{!item.editScore}}">{{item.score}}</view>
-                            <input name="score" data-name="score" wx:if="{{item.editScore}}" bindblur="bindBlur" placeholder="{{item.score}}" focus />
+                            <input type="number" name="score" data-name="score" wx:if="{{item.editScore}}" bindblur="bindBlur" placeholder="{{item.score}}" focus />
                         </view>
                         <view class="row_width_action">
                             <button form-type="submit" style="width: 40%;display:inline-block;margin-right:10rpx;" class="button">

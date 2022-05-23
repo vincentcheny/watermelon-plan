@@ -151,7 +151,6 @@ Page({
             },
             fail: (res) => {
                 console.log(res);
-                console.log('用户点击拒绝')
                 wx.showModal({
                     cancelColor: 'cancelColor',
                     title: '不授权的话就用不了',

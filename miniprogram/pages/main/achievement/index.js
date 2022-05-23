@@ -104,7 +104,7 @@ Page({
                         }
                     },
                     fail: function (res_db) {
-                        console.log("Fail querying the message from db user");
+                        console.log("Fail querying the message from db user",wx.getStorageSync("_id"),res_db);
                     }
                 });
             that.setData({

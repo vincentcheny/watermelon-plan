@@ -1,0 +1,24 @@
+<!--pages/main/todo/index.wxml-->
+<view style="width: 99%;">
+    <view style="width: 100%; margin: auto 20rpx;">
+        <view class="box theme-{{theme}}">
+            <view class="row row_title">
+                {{title}}
+            </view>
+            <view wx:for="{{records}}" wx:key="exacttime">
+                <mp-slideview buttons="{{slideButtonSend}}" icon="{{true}}" bindbuttontap="deleteTodo" data-content="{{item.content}}" data-time="{{item.exacttime}}">
+                    <view class="row row_detail">
+                        {{item.content}}
+                    </view>
+                </mp-slideview>
+            </view>
+            <view>
+                <mp-slideview buttons="{{slideButtonAdd}}" disable="{{inputValue == ''}}" icon="{{true}}" bindbuttontap="addTodo">
+                    <view class="row row_detail" style="margin-top: 25rpx; margin-bottom: 30rpx;">
+                        <input value="{{addtext}}" bindinput="bindInput" placeholder="添加内容 左划点击提交" />
+                    </view>
+                </mp-slideview>
+            </view>
+        </view>
+    </view>
+</view>

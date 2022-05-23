@@ -26,6 +26,9 @@ Page({
             'game': {
                 name: "游戏"
             },
+            'todo': {
+                name: "TODO"
+            },
             'manage': {
                 name: "管理"
             },

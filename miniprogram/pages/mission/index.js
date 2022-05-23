@@ -74,7 +74,6 @@ Page({
                 if (resp.result.data.length == 0) {
                     throw new Error("Return list is empty. No corresponding openid in the database.")
                 }
-                wx.setStorageSync('_id', resp.result.data[0]._id)
                 wx.cloud.callFunction({
                         name: 'quickstartFunctions',
                         config: {

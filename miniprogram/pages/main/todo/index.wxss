@@ -1,0 +1,21 @@
+/* pages/main/todo/index.wxss */
+@import '../../../components/common.wxss';
+
+.row {
+    display: flex;
+    flex-direction: column;
+}
+
+.row_title {
+    font-size: 42rpx;
+}
+
+.row_detail {
+    font-size: 44rpx;
+    padding: 10rpx 0;
+    margin: 15rpx auto;
+}
+
+.icon>.weui-slideview__btn {
+    margin: 7.5rpx auto
+}

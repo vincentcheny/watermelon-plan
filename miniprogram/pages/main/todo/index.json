@@ -1,0 +1,9 @@
+{
+    "navigationBarTitleText": "待做事项⏱︎",
+    "component": true,
+    "usingComponents": {
+        "mp-slideview": "weui-miniprogram/slideview/slideview",
+        "mp-cells": "weui-miniprogram/cells/cells",
+        "mp-cell": "weui-miniprogram/cell/cell"
+    }
+}

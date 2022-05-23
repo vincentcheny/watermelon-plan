@@ -9,7 +9,8 @@
         "pages/main/whisper/index",
         "pages/main/achievement/index",
         "pages/main/game/index",
-        "pages/main/manage/index"
+        "pages/main/manage/index",
+        "pages/main/todo/index"
     ],
     "window": {
         "backgroundColor": "@backgroundColor",
