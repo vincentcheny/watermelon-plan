@@ -99,44 +99,32 @@ Page({
                         showCancel: false,
                         success(res) {
                             // 游戏成就检测
-                            wx.cloud.callFunction({
-                                name: 'quickstartFunctions',
-                                config: {
-                                    env: that.data.selectedEnv.envId
-                                },
-                                data: {
-                                    type: 'getAchievementByType',
-                                    data: {
-                                        type: "game"
-                                    }
+                            var achievements = wx.getStorageSync('achievements');
+                            for (var i in achievements) {
+                                var data = achievements[i];
+                                if (data.level == 0 && resp.data.achievement_data.num_game + 1 == data.num ||
+                                    data.level == 1 && oldScore > 200 && resp.data.achievement_data.num_200_game + 1 == data.num ||
+                                    data.level == 2 && oldScore > 1000 && resp.data.achievement_data.num_1000_game + 1 == data.num) {
+                                    var data_copy = data;
+                                    db.collection('user')
+                                        .doc(wx.getStorageSync("_id"))
+                                        .update({
+                                            data: {
+                                                achievement: db.command.push([data_copy._id]),
+                                            },
+                                            success: (res) => {
+                                                wx.showModal({
+                                                    title: '╰(*°▽°*)╯恭喜！',
+                                                    content: wx.getStorageSync("user_name") + ' 达成 "' + data_copy.title + '"（' + data_copy.desc + '），去成就看下有什么奖励叭！',
+                                                    showCancel: false
+                                                });
+                                            },
+                                            fail: (res) => {
+                                                console.error(res);
+                                            }
+                                        });
                                 }
-                            }).then((res_achi) => {
-                                for (var i in res_achi.result.data) {
-                                    var data = res_achi.result.data[i];
-                                    if (data.level == 0 && resp.data.achievement_data.num_game + 1 == data.num ||
-                                        data.level == 1 && oldScore > 200 && resp.data.achievement_data.num_200_game + 1 == data.num ||
-                                        data.level == 2 && oldScore > 1000 && resp.data.achievement_data.num_1000_game + 1 == data.num) {
-                                        var data_copy = data;
-                                        db.collection('user')
-                                            .doc(wx.getStorageSync("_id"))
-                                            .update({
-                                                data: {
-                                                    achievement: db.command.push([data_copy._id]),
-                                                },
-                                                success: (res) => {
-                                                    wx.showModal({
-                                                        title: '╰(*°▽°*)╯恭喜！',
-                                                        content: wx.getStorageSync("user_name") + ' 达成成就"' + data_copy.title + '"（' + data_copy.desc + '）',
-                                                        showCancel: false
-                                                    });
-                                                },
-                                                fail: (res) => {
-                                                    console.error(res);
-                                                }
-                                            });
-                                    }
-                                }
-                            });
+                            }
                         }
                     });
                     that.setData({

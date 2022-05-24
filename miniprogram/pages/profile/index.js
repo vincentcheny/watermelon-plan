@@ -123,7 +123,8 @@ Page({
      */
     onShow: function () {
         this.setData({
-            theme: app.globalData.theme
+            theme: app.globalData.theme,
+            unlock_theme: wx.getStorageSync('unlock_theme')
         })
     },
 

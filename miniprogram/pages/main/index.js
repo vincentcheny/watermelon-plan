@@ -49,7 +49,31 @@ Page({
             openid: wx.getStorageSync("openid"),
             userName: wx.getStorageSync("user_name"),
         });
+        this.cacheAchievements();
         this.anniversaryCheck();
+    },
+
+    cacheAchievements() {
+        var that = this;
+        wx.cloud.callFunction({
+            name: 'quickstartFunctions',
+            config: {
+                env: this.data.selectedEnv.envId
+            },
+            data: {
+                type: 'getCollection',
+                name: 'achievement'
+            }
+        }).then((res_achi) => {
+            var achievements = new Object();
+            for (var i in res_achi.result.data) {
+                achievements[res_achi.result.data[i]._id] = res_achi.result.data[i];
+            }
+            wx.setStorageSync('achievements', achievements)
+            that.setData({
+                achievements: achievements
+            });
+        });
     },
 
     getAnniversary(date, year = 2021, month = 5, day = 27) {
@@ -63,48 +87,52 @@ Page({
     },
 
     anniversaryCheck() {
+        let that = this;
+        let yesterday = new Date();
+        let new_anni = this.getAnniversary(yesterday);
+        yesterday.setDate(yesterday.getDate() - 1);
+        let old_anni = this.getAnniversary(yesterday);
         const db = wx.cloud.database({
             env: this.data.selectedEnv.envId
         })
-        wx.cloud.callFunction({
-            name: 'quickstartFunctions',
-            config: {
-                env: this.data.selectedEnv.envId
-            },
-            data: {
-                type: 'getAchievementByType',
-                data: {
-                    type: "year"
-                }
-            }
-        }).then((res_achi) => {
-            let yesterday = new Date();
-            let new_anni = this.getAnniversary(yesterday);
-            yesterday.setDate(yesterday.getDate() - 1);
-            let old_anni = this.getAnniversary(yesterday);
-            for (var i in res_achi.data) {
-                if (old_anni < res_achi.data[i].num && new_anni >= res_achi.data[i].num) {
-                    var data_copy = res_achi.data[i];
-                    db.collection('user')
-                        .doc(wx.getStorageSync("_id"))
-                        .update({
-                            data: {
-                                achievement: db.command.push([data_copy._id]),
-                            },
-                            success: (res) => {
-                                wx.showModal({
-                                    title: '╰(*°▽°*)╯恭喜！',
-                                    content: wx.getStorageSync("user_name") + ' 达成成就"' + data_copy.title + '"（' + data_copy.desc + '）',
-                                    showCancel: false
+        db.collection('user')
+            .doc(wx.getStorageSync("_id"))
+            .get({
+                success: function (res) {
+                    // cache unlock theme
+                    let unlock_theme = {
+                        white: true,
+                        melon: true,
+                        dog: res.data.achievement.includes('058dfefe627a11d7025ebd7077ab960d'),
+                        star: res.data.achievement.includes('0a4ec1f9627a081302d18dd04bb0e556')
+                    }
+                    wx.setStorageSync('unlock_theme', unlock_theme);
+                    for (var i in that.data.achievements) {
+                        if (res.data.achievement.includes(i) && that.data.achievements[i].type == "year" && old_anni < that.data.achievements[i].num && new_anni >= that.data.achievements[i].num) {
+                            var data_copy = that.data.achievements[i];
+                            db.collection('user')
+                                .doc(wx.getStorageSync("_id"))
+                                .update({
+                                    data: {
+                                        achievement: db.command.push([data_copy._id]),
+                                    },
+                                    success: (res) => {
+                                        wx.showModal({
+                                            title: '╰(*°▽°*)╯恭喜！',
+                                            content: wx.getStorageSync("user_name") + ' 达成 "' + data_copy.title + '"（' + data_copy.desc + '），去成就看下有什么奖励叭！',
+                                            showCancel: false
+                                        });
+                                    },
+                                    fail: (res) => {
+                                        console.error(res);
+                                    }
                                 });
-                            },
-                            fail: (res) => {
-                                console.error(res);
-                            }
-                        });
+                        }
+                    }
+
                 }
-            }
-        })
+            })
+
     },
 
     onShow: function () {

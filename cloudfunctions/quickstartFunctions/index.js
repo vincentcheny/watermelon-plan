@@ -3,7 +3,6 @@ const getUserByOpenId = require('./getUserByOpenId/index');
 const getCollection = require('./getCollection/index');
 const getBag = require('./getBag/index');
 const addUser = require('./addUser/index');
-const getAchievementByType = require('./getAchievementByType/index');
 
 
 // 云函数入口函数
@@ -21,7 +20,5 @@ exports.main = async (event, context) => {
             return await getBag.main(event, context);
         case 'addUser':
             return await addUser.main(event, context);
-        case 'getAchievementByType':
-            return await getAchievementByType.main(event, context);
     }
 };

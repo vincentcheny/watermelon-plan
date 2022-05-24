@@ -221,42 +221,30 @@ Page({
                                 wx.hideLoading();
 
                                 // 成就检测
-                                wx.cloud.callFunction({
-                                    name: 'quickstartFunctions',
-                                    config: {
-                                        env: that.data.selectedEnv.envId
-                                    },
-                                    data: {
-                                        type: 'getAchievementByType',
-                                        data: {
-                                            type: ["score", "day"]
-                                        }
+                                var achievements = wx.getStorageSync('achievements');
+                                for (var i in achievements) {
+                                    if (achievements[i].type == "score" && res.data.achievement_data.total_integral < achievements[i].num && res.data.achievement_data.total_integral + data.detail.item_score >= achievements[i].num ||
+                                        achievements[i].type == "day" && res.data.achievement_data.cur_mission_combo < achievements[i].num && curCombo >= achievements[i].num) {
+                                        var data_copy = achievements[i];
+                                        db.collection('user')
+                                            .doc(wx.getStorageSync("_id"))
+                                            .update({
+                                                data: {
+                                                    achievement: db.command.push([data_copy._id]),
+                                                },
+                                                success: (res) => {
+                                                    wx.showModal({
+                                                        title: '╰(*°▽°*)╯恭喜！',
+                                                        content: wx.getStorageSync("user_name") + ' 达成 "' + data_copy.title + '"（' + data_copy.desc + '），去成就看下有什么奖励叭！',
+                                                        showCancel: false
+                                                    });
+                                                },
+                                                fail: (res) => {
+                                                    console.error(res);
+                                                }
+                                            });
                                     }
-                                }).then((res_achi) => {
-                                    for (var i in res_achi.result.data) {
-                                        if (res_achi.result.data[i].type == "score" && res.data.achievement_data.total_integral < res_achi.result.data[i].num && res.data.achievement_data.total_integral + data.detail.item_score >= res_achi.result.data[i].num ||
-                                            res_achi.result.data[i].type == "day" && res.data.achievement_data.cur_mission_combo < res_achi.result.data[i].num && curCombo >= res_achi.result.data[i].num) {
-                                            var data_copy = res_achi.result.data[i];
-                                            db.collection('user')
-                                                .doc(wx.getStorageSync("_id"))
-                                                .update({
-                                                    data: {
-                                                        achievement: db.command.push([data_copy._id]),
-                                                    },
-                                                    success: (res) => {
-                                                        wx.showModal({
-                                                            title: '╰(*°▽°*)╯恭喜！',
-                                                            content: wx.getStorageSync("user_name") + ' 达成成就"' + data_copy.title + '"（' + data_copy.desc + '）',
-                                                            showCancel: false
-                                                        });
-                                                    },
-                                                    fail: (res) => {
-                                                        console.error(res);
-                                                    }
-                                                });
-                                        }
-                                    }
-                                })
+                                }
                             },
                             fail: (resp) => {
                                 console.log(resp);
