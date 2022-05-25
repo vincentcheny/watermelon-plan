@@ -10,9 +10,9 @@
             <radio-group bindchange="radioChange" data-id="{{subject.id}}">
                 <label class="weui-cell weui-check__label" wx:for="{{subject.items}}" wx:key="value">
                     <view class="weui-cell__hd">
-                        <radio value="{{item.value}}" checked="{{item.checked}}" disabled="{{unlock_theme[theme]?false:true}}" />
+                        <radio value="{{item.value}}" checked="{{item.checked}}" disabled="{{!unlock_theme[item.value]}}" />
                     </view>
-                    <view class="weui-cell__bd">{{item.name}}</view>
+                    <view class="weui-cell__bd">{{item.name}}</view><image wx:if="{{!unlock_theme[item.value]}}" style="width: 48rpx;height: 48rpx;" src="/../image/icon/forbid.svg"></image>
                 </label>
             </radio-group>
         </view>

@@ -93,7 +93,7 @@ Page({
                                 {
                                     daily: '每日兑换',
                                     weekly: '每周兑换',
-                                    others: '其它兑换'
+                                    xothers: '其它兑换'
                                 },
                                 '积分'
                             ]

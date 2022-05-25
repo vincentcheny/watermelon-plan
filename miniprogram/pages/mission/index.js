@@ -96,6 +96,7 @@ Page({
                                 name: data.name,
                                 content: data.score,
                                 type: data.type,
+                                comment: data.comment,
                                 is_finished: data_name[data._id] ?? false
                             })
                         };
@@ -112,7 +113,7 @@ Page({
                             titles: [{
                                     daily: '每日任务',
                                     weekly: '每周任务',
-                                    others: '其它任务'
+                                    xothers: '其它任务'
                                 },
                                 '积分'
                             ]
@@ -132,7 +133,7 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-        this.getServerData();
+        // this.getServerData();
     },
 
     getServerData() {

@@ -98,10 +98,15 @@ Component({
                     item_time: e.currentTarget.dataset.time
                 });
             } else if (e.detail.index == 1) {
-                this.setData({
-                    showIntro: true,
-                    msg: e.currentTarget.dataset.content
-                });
+                for (var idx in this.data.records) {
+                    if (this.data.records[idx]._id == e.currentTarget.dataset.id) {
+                        this.setData({
+                            showIntro: true,
+                            msg: this.data.records[idx].comment
+                        });
+                        return
+                    }
+                }
             }
         }
     }

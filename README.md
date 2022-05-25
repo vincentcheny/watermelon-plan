@@ -25,7 +25,7 @@
 
          - [x] 成就奖励弹窗
 
-         - [ ] 成就奖励主题预览图
+         - [ ] ~~成就奖励主题预览图~~
          
          - [x] 成就完成检测
          
@@ -89,7 +89,7 @@
       - [x] 使用progress代替成就页面的divider
       - [x] 将数据库调用替换成云函数，[理由](https://developers.weixin.qq.com/community/develop/doc/00008603b683680f5d4caf69355c00)
       - [x] 将管理页面以外的列表显示部分提取成 Component
-      - [ ] 设计成就奖励
+      - [x] 设计成就奖励
       - [x] 九宫格grid显示首页
       - [ ] ~~使用原生icon~~
       - [x] 右划操作列表
