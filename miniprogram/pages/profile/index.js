@@ -14,7 +14,7 @@ Page({
         list: [{
             id: 'theme',
             name: '主题',
-            icon: '/image/icon/theme.svg',
+            icon: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/icon/theme.svg',
             open: false,
             items: [{
                 value: 'white',

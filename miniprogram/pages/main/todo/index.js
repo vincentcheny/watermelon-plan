@@ -9,11 +9,11 @@ Page({
         records: [],
         slideButtonSend: [{
             extClass: 'icon',
-            src: '/image/icon/send.svg'
+            src: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/icon/send.svg'
         }],
         slideButtonAdd: [{
             extClass: 'icon',
-            src: '/image/icon/add.svg'
+            src: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/icon/add.svg'
         }],
         inputValue: '',
         addtext: '',

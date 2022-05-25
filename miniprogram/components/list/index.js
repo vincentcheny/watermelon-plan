@@ -52,29 +52,29 @@ Component({
         slideButtons: {
             'light': [{
                 extClass: 'icon',
-                src: '/image/icon/send.svg'
+                src: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/icon/send.svg'
             }, {
                 extClass: 'icon',
-                src: '/image/icon/more.svg'
+                src: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/icon/more.svg'
             }, {
                 extClass: 'icon',
-                src: '/image/icon/done.svg'
+                src: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/icon/done.svg'
             }, {
                 extClass: 'icon',
-                src: '/image/icon/more.svg'
+                src: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/icon/more.svg'
             }],
             'dark': [{
                 extClass: 'icon',
-                src: '/image/icon/send.svg'
+                src: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/icon/send.svg'
             }, {
                 extClass: 'icon',
-                src: '/image/icon/more-dark.svg'
+                src: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/icon/more-dark.svg'
             }, {
                 extClass: 'icon',
-                src: '/image/icon/done-dark.svg'
+                src: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/icon/done-dark.svg'
             }, {
                 extClass: 'icon',
-                src: '/image/icon/more-dark.svg'
+                src: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/icon/more-dark.svg'
             }]
         }
     },

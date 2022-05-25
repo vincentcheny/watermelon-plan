@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <block>
-    <image class="bg-image" mode="widthFix" src="cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/bg-{{theme}}.jpg"></image>
+    <image class="bg-image" mode="widthFix" src="cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/background/bg-{{theme}}.jpg"></image>
     <view class="container" data-weui-theme="{{theme}}">
         <view class="title" style="display: flex;flex-direction: row;align-items: center;">
             <image style="width: 100rpx;height: 100rpx;border-radius: 100rpx; margin-right: 40rpx;" src="{{userAvatar}}"></image>
@@ -10,7 +10,7 @@
             <view wx:for="{{homeElement}}" wx:for-item="typeItem" wx:key="index" class="element">
                 <view bindtap="jumpPage" data-page="{{'main/'+index}}">
                     <image class="element_img" mode="aspectFit" src="{{typeItem.icon}}"></image>
-                    <br />
+                    <text>\n</text>
                     {{typeItem.name}}
                 </view>
             </view>

@@ -12,7 +12,7 @@ Page({
         userName: undefined,
         openid: undefined,
         userAvatar: undefined,
-        icon_location: '/../image/theme',
+        icon_location: 'cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/theme',
         homeElement: {
             'achievement': {
                 name: "成就"

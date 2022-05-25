@@ -1,6 +1,6 @@
 <!--pages/achievement/index.wxml-->
 <block>
-    <image class="bg-image" mode="widthFix" src="cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/bg-{{theme}}.jpg"></image>
+    <image class="bg-image" mode="widthFix" src="cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/background/bg-{{theme}}.jpg"></image>
     <view class="container" data-weui-theme="{{theme}}">
         长按图标显示奖励
         <view class="achiBox">
