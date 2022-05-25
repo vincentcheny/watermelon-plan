@@ -28,14 +28,16 @@ Page({
             },
             'todo': {
                 name: "TODO"
-            },
-            'manage': {
-                name: "管理"
-            },
+            }
         },
     },
 
     onLoad(options) {
+        if (wx.getStorageSync("openid") == 'oEe5y5X_7-M4dZnwAEDIJ1bfJyAQ') {
+            let homeElement = this.data.homeElement;
+            homeElement['manage'] = {name: '管理'};
+            this.setData({homeElement})
+        }
         let text = ['首页', '任务', '兑换', '我的']
         for (let i = 0; i < 4; i++) {
             wx.setTabBarItem({
