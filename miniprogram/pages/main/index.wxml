@@ -2,8 +2,8 @@
 <block>
     <image class="bg-image" mode="widthFix" src="cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/bg-{{theme}}.jpg"></image>
     <view class="container" data-weui-theme="{{theme}}">
-        <!-- <image class="avatar" mode="scaleToFill" src="{{userAvatar}}"></image> -->
-        <view class="title">
+        <view class="title" style="display: flex;flex-direction: row;align-items: center;">
+            <image style="width: 100rpx;height: 100rpx;border-radius: 100rpx; margin-right: 40rpx;" src="{{userAvatar}}"></image>
             {{userName}}の积分：{{userIntegral || 0}}
         </view>
         <view class="elementBox">

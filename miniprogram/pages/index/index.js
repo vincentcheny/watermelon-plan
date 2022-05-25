@@ -9,8 +9,7 @@ Page({
         selectedEnv: envList[0],
         userIntegral: 0,
         userName: undefined,
-        openid: undefined,
-        userAvatar: undefined
+        openid: undefined
     },
 
     onLoad() {

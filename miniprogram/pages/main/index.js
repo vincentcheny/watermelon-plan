@@ -48,6 +48,7 @@ Page({
         this.setData({
             openid: wx.getStorageSync("openid"),
             userName: wx.getStorageSync("user_name"),
+            userAvatar: wx.getStorageSync('avatar_url')
         });
         this.cacheAchievements();
         this.anniversaryCheck();
