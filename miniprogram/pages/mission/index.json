@@ -1,7 +1,6 @@
 {
     "navigationBarTitleText": "任务列表📊",
     "usingComponents": {
-        "qiun-wx-ucharts": "/components/qiun-wx-ucharts/index",
         "list": "/components/list/index"
     }
 }

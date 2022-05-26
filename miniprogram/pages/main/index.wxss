@@ -18,6 +18,7 @@
 .element_img {
     width: 80%;
     height: 80px;
+    border-radius: 50rpx;
 }
 
 .panel {
@@ -28,4 +29,10 @@
     border-radius: 30rpx;
     border-style: solid;
     background-color: rgba(255,255,255,0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+    .theme-white, .theme-melon, .theme-dog, .theme-star {
+        background-color: rgba(64,64,64,0.5);
+    }
 }

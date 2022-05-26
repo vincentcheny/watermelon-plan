@@ -78,7 +78,7 @@
       - [x] 构建设置页面
       - [x] 颜色主题（暗黑、简白、星之卡比和玉桂狗）带图标
         - [获取当前主题](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getSystemInfoSync.html)
-      - [ ] 实现成就奖励解锁皮肤
+      - [x] 实现成就奖励解锁皮肤
       
    6. 未来功能
       1. [绑定另一半并通过小程序订阅功能推送提醒](https://www.zhihu.com/question/52719661)
