@@ -126,27 +126,37 @@ Page({
     },
 
     submit(e) {
-        const db = wx.cloud.database({
-            env: this.data.selectedEnv.envId
-        })
-        db.collection(e.currentTarget.dataset.attr)
-            .doc(e.currentTarget.dataset.id)
-            .update({
+        wx.cloud.callFunction({
+            name: 'quickstartFunctions',
+            config: {
+                env: this.data.selectedEnv.envId
+            },
+            data: {
+                type: 'updateCollection',
                 data: {
-                    name: e.detail.value.name ?? e.currentTarget.dataset.name,
-                    score: e.detail.value.score ?? e.currentTarget.dataset.score
-                },
-                success: (res) => {
-                    wx.showModal({
-                        title: '提示',
-                        content: '更新成功！',
-                        showCancel: false
-                    });
-                },
-                fail: (res) => {
-                    console.error(res);
+                    id: e.currentTarget.dataset.id,
+                    collection_name: e.currentTarget.dataset.attr,
+                    update_objects: {
+                        name: {
+                            type: 'set',
+                            value: e.detail.value.name ?? e.currentTarget.dataset.name
+                        },
+                        score: {
+                            type: 'set',
+                            value: e.detail.value.score ?? e.currentTarget.dataset.score
+                        }
+                    }
                 }
+            }
+        }).then((resp) => {
+            wx.showModal({
+                title: '提示',
+                content: '更新成功！',
+                showCancel: false
             });
+        }).catch((e) => {
+            console.error(e);
+        });
     },
 
     add(e) {

@@ -74,21 +74,47 @@ Page({
                     gambleCombo = Math.max(resp.data.gamble_combo + 1, 1);
                 }
                 var oldScore = that.data.userIntegral;
-                db.collection('user')
-                    .doc(wx.getStorageSync("_id"))
-                    .update({
-                        data: {
-                            user_integral: newScore,
-                            gamble_combo: gambleCombo,
-                            gamble_limit: db.command.inc(-1),
-                            ['achievement_data.num_game']: db.command.inc(1),
-                            ['achievement_data.num_200_game']: db.command.inc(oldScore > 200 ? 1 : 0),
-                            ['achievement_data.num_1000_game']: db.command.inc(oldScore > 1000 ? 1 : 0)
+                wx.cloud.callFunction({
+                        name: 'quickstartFunctions',
+                        config: {
+                            env: this.data.selectedEnv.envId
                         },
-                        success: (res) => {},
-                        fail: (res) => {
-                            console.error(res);
+                        data: {
+                            type: 'updateCollection',
+                            data: {
+                                id: wx.getStorageSync("_id"),
+                                collection_name: 'user',
+                                update_objects: {
+                                    user_integral: {
+                                        type: 'set',
+                                        value: newScore
+                                    },
+                                    gamble_combo: {
+                                        type: 'set',
+                                        value: gambleCombo
+                                    },
+                                    gamble_limit: {
+                                        type: 'add',
+                                        value: -1
+                                    },
+                                    ['achievement_data.num_game']: {
+                                        type: 'add',
+                                        value: 1
+                                    },
+                                    ['achievement_data.num_200_game']: {
+                                        type: 'add',
+                                        value: oldScore > 200 ? 1 : 0
+                                    },
+                                    ['achievement_data.num_1000_game']: {
+                                        type: 'add',
+                                        value: oldScore > 1000 ? 1 : 0
+                                    },
+                                }
+                            }
                         }
+                    }).then((resp) => {})
+                    .catch((e) => {
+                        console.error(e);
                     });
 
                 setTimeout(function () {
@@ -106,23 +132,33 @@ Page({
                                     data.level == 1 && oldScore > 200 && resp.data.achievement_data.num_200_game + 1 == data.num ||
                                     data.level == 2 && oldScore > 1000 && resp.data.achievement_data.num_1000_game + 1 == data.num) {
                                     var data_copy = data;
-                                    db.collection('user')
-                                        .doc(wx.getStorageSync("_id"))
-                                        .update({
+                                    wx.cloud.callFunction({
+                                        name: 'quickstartFunctions',
+                                        config: {
+                                            env: that.data.selectedEnv.envId
+                                        },
+                                        data: {
+                                            type: 'updateCollection',
                                             data: {
-                                                achievement: db.command.push([data_copy._id]),
-                                            },
-                                            success: (res) => {
-                                                wx.showModal({
-                                                    title: '╰(*°▽°*)╯恭喜！',
-                                                    content: wx.getStorageSync("user_name") + ' 达成 "' + data_copy.title + '"（' + data_copy.desc + '），去成就看下有什么奖励叭！',
-                                                    showCancel: false
-                                                });
-                                            },
-                                            fail: (res) => {
-                                                console.error(res);
+                                                id: wx.getStorageSync("_id"),
+                                                collection_name: 'user',
+                                                update_objects: {
+                                                    achievement: {
+                                                        type: 'push',
+                                                        value: data_copy._id
+                                                    }
+                                                }
                                             }
+                                        }
+                                    }).then((resp) => {
+                                        wx.showModal({
+                                            title: '╰(*°▽°*)╯恭喜！',
+                                            content: wx.getStorageSync("user_name") + ' 达成 "' + data_copy.title + '"（' + data_copy.desc + '），去成就看下有什么奖励叭！',
+                                            showCancel: false
                                         });
+                                    }).catch((e) => {
+                                        console.error(e);
+                                    });
                                 }
                             }
                         }

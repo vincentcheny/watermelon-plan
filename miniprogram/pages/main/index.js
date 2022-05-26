@@ -33,11 +33,23 @@ Page({
     },
 
     onLoad(options) {
-        if (wx.getStorageSync("openid") == 'oEe5y5X_7-M4dZnwAEDIJ1bfJyAQ') {
-            let homeElement = this.data.homeElement;
-            homeElement['manage'] = {name: '管理'};
-            this.setData({homeElement})
-        }
+        const db = wx.cloud.database();
+        var that = this;
+        db.collection('secret').limit(1).get().then((res)=>{
+            if (wx.getStorageSync("openid") == res.data[0].openid) {
+                let homeElement = that.data.homeElement;
+                homeElement['manage'] = {
+                    name: '管理'
+                };
+                that.setData({
+                    homeElement
+                })
+                that.setData({
+                    ['homeElement.manage.icon']: [that.data.icon_location, that.data.theme, 'manage_cover.svg'].join('/'),
+                });
+            }
+        })
+        
         let text = ['首页', '任务', '兑换', '我的']
         for (let i = 0; i < 4; i++) {
             wx.setTabBarItem({
@@ -53,7 +65,6 @@ Page({
             userAvatar: wx.getStorageSync('avatar_url')
         });
         this.cacheAchievements();
-        this.anniversaryCheck();
     },
 
     cacheAchievements() {
@@ -76,12 +87,13 @@ Page({
             that.setData({
                 achievements: achievements
             });
+            that.anniversaryCheck();
         });
     },
 
     getAnniversary(date, year = 2021, month = 5, day = 27) {
         let anniversary;
-        if (date.getMonth() > month || date.getMonth() == month && date.getDay() >= day) {
+        if (date.getMonth() > month || date.getMonth() + 1 == month && date.getDate() >= day) {
             anniversary = date.getFullYear() - year;
         } else {
             anniversary = date.getFullYear() - year - 1;
@@ -111,31 +123,39 @@ Page({
                     }
                     wx.setStorageSync('unlock_theme', unlock_theme);
                     for (var i in that.data.achievements) {
-                        if (res.data.achievement.includes(i) && that.data.achievements[i].type == "year" && old_anni < that.data.achievements[i].num && new_anni >= that.data.achievements[i].num) {
+                        if (!res.data.achievement.includes(i) && that.data.achievements[i].type == "year" && old_anni < that.data.achievements[i].num && new_anni >= that.data.achievements[i].num) {
                             var data_copy = that.data.achievements[i];
-                            db.collection('user')
-                                .doc(wx.getStorageSync("_id"))
-                                .update({
+                            wx.cloud.callFunction({
+                                name: 'quickstartFunctions',
+                                config: {
+                                    env: that.data.selectedEnv.envId
+                                },
+                                data: {
+                                    type: 'updateCollection',
                                     data: {
-                                        achievement: db.command.push([data_copy._id]),
-                                    },
-                                    success: (res) => {
-                                        wx.showModal({
-                                            title: '╰(*°▽°*)╯恭喜！',
-                                            content: wx.getStorageSync("user_name") + ' 达成 "' + data_copy.title + '"（' + data_copy.desc + '），去成就看下有什么奖励叭！',
-                                            showCancel: false
-                                        });
-                                    },
-                                    fail: (res) => {
-                                        console.error(res);
+                                        id: wx.getStorageSync("_id"),
+                                        collection_name: 'user',
+                                        update_objects: {
+                                            achievement: {
+                                                type: 'push',
+                                                value: data_copy._id
+                                            }
+                                        }
                                     }
+                                }
+                            }).then((resp) => {
+                                wx.showModal({
+                                    title: '╰(*°▽°*)╯恭喜！',
+                                    content: wx.getStorageSync("user_name") + ' 达成《' + data_copy.title + '》（' + data_copy.desc + '），去成就看下有什么奖励叭！',
+                                    showCancel: false
                                 });
+                            }).catch((e) => {
+                                console.error(e);
+                            });
                         }
                     }
-
                 }
             })
-
     },
 
     onShow: function () {

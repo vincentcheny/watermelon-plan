@@ -86,28 +86,43 @@ Page({
                             ) {
                                 console.log('Start updating records');
                                 wx.setStorageSync('user_name', res.userInfo.nickName);
-                                const db = wx.cloud.database();
-                                const user = db.collection('user');
-                                user.doc(db_user._id).update({
+                                wx.cloud.callFunction({
+                                    name: 'quickstartFunctions',
+                                    config: {
+                                        env: this.data.selectedEnv.envId
+                                    },
                                     data: {
-                                        user_name: res.userInfo.nickName,
-                                        avatar_url: res.userInfo.avatarUrl,
-                                        user_gender: res.userInfo.gender
-                                    },
-                                    success: function (res) {
-                                        console.log('Update personal data successfully.');
-                                        that.setData({
-                                            userName: res.userInfo.nickName
-                                        });
-                                        console.log('Update a record.');
-                                        wx.switchTab({
-                                            url: `../main/index`,
-                                        });
-                                    },
-                                    fail: function (res) {
-                                        console.log('Fail to update personal data.');
-                                        console.log(res);
+                                        type: 'updateCollection',
+                                        data: {
+                                            id: wx.getStorageSync("_id"),
+                                            collection_name: 'user',
+                                            update_objects: {
+                                                user_name: {
+                                                    type: 'set',
+                                                    value: res.userInfo.nickName
+                                                },
+                                                avatar_url: {
+                                                    type: 'set',
+                                                    value: res.userInfo.avatarUrl
+                                                },
+                                                user_gender: {
+                                                    type: 'set',
+                                                    value: res.userInfo.gender
+                                                },
+                                            }
+                                        }
                                     }
+                                }).then((resp) => {
+                                    console.log('Update personal data successfully.');
+                                    that.setData({
+                                        userName: res.userInfo.nickName
+                                    });
+                                    wx.switchTab({
+                                        url: `../main/index`,
+                                    });
+                                }).catch((e) => {
+                                    console.log('Fail to update personal data.');
+                                    console.error(e);
                                 });
                             } else {
                                 console.log('No need to update personal info in DB.');

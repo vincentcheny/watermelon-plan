@@ -55,25 +55,33 @@ Page({
     },
 
     formSubmit(e) {
-        const db = wx.cloud.database();
-        const user = db.collection('user');
-        user.doc(wx.getStorageSync("_id")).update({
+        wx.cloud.callFunction({
+            name: 'quickstartFunctions',
+            config: {
+                env: this.data.selectedEnv.envId
+            },
             data: {
-                message: e.detail.value.textarea
-            },
-            success: function (res) {
-                console.log('Update personal message successfully.');
-                wx.showToast({
-                    title: '保存成功',
-                    icon: 'success',
-                    duration: 2000
-                })
-            },
-            fail: function (res) {
-                console.log('Fail to update personal message.');
-                console.log(res);
+                type: 'updateCollection',
+                data: {
+                    id: wx.getStorageSync("_id"),
+                    collection_name: 'user',
+                    update_objects: {
+                        message: {
+                            type: 'set',
+                            value: e.detail.value.textarea
+                        }
+                    }
+                }
             }
-        })
+        }).then((resp) => {
+            wx.showToast({
+                title: '保存成功',
+                icon: 'success',
+                duration: 2000
+            })
+        }).catch((e) => {
+            console.error(e);
+        });
     },
 
     /**

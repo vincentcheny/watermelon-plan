@@ -126,40 +126,51 @@ Page({
             env: this.data.selectedEnv.envId
         })
         var that = this;
-        db.collection('user')
-        .doc(wx.getStorageSync("_id"))
-        .update({
-            data: {
-                [data.detail.item_type + '_reward']: {
-                    [data.detail.item_id]: true
-                }, 
-                user_integral: db.command.inc((-1) * data.detail.item_score)
+        wx.cloud.callFunction({
+            name: 'quickstartFunctions',
+            config: {
+                env: this.data.selectedEnv.envId
             },
-            success: (res) => {
-                for (var idx in that.data.records) {
-                    if (that.data.records[idx]._id == data.detail.item_id) {
-                        that.setData({
-                            ['records['+idx+'].is_finished']: true
-                        });
-                        wx.showModal({
-                            title: '提示',
-                            content: '领取了 "' + data.detail.item_name + '" ！',
-                            showCancel: false
-                        });
-                        break;
+            data: {
+                type: 'updateCollection',
+                data: {
+                    id: wx.getStorageSync("_id"),
+                    collection_name: 'user',
+                    update_objects: {
+                        [data.detail.item_type + '_reward.' + data.detail.item_id]: {
+                            type: 'set',
+                            value: true
+                        },
+                        user_integral: {
+                            type: 'add',
+                            value: (-1) * data.detail.item_score
+                        }
                     }
                 }
-                var newScore = wx.getStorageSync("integral")-data.detail.item_score;
-                wx.setStorageSync('integral', newScore);
-                that.setData({
-                    userIntegral: newScore
-                });
-                wx.hideLoading();
-            },
-            fail: (res) => {
-                console.error(res);
-                wx.hideLoading();
             }
+        }).then((resp) => {
+            for (var idx in that.data.records) {
+                if (that.data.records[idx]._id == data.detail.item_id) {
+                    that.setData({
+                        ['records['+idx+'].is_finished']: true
+                    });
+                    wx.showModal({
+                        title: '提示',
+                        content: '领取了 "' + data.detail.item_name + '" ！',
+                        showCancel: false
+                    });
+                    break;
+                }
+            }
+            var newScore = wx.getStorageSync("integral")-data.detail.item_score;
+            wx.setStorageSync('integral', newScore);
+            that.setData({
+                userIntegral: newScore
+            });
+            wx.hideLoading();
+        }).catch((e) => {
+            console.error(e);
+            wx.hideLoading();
         });
         db.collection('bag')
         .add({

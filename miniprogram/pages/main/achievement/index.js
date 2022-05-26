@@ -81,7 +81,7 @@ Page({
                         } else if (yearIds.includes(id)) {
                             let anniversary;
                             let today = new Date();
-                            if (today.getMonth() > 4 || today.getMonth() == 4 && today.getDay() >= 27) {
+                            if (today.getMonth() > 4 || today.getMonth()+1 == 5 && today.getDate() >= 27) {
                                 anniversary = today.getFullYear() - 2021;
                             } else {
                                 anniversary = today.getFullYear() - 2021 - 1;

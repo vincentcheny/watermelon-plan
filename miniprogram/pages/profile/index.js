@@ -67,48 +67,55 @@ Page({
             wx.showLoading({
                 title: '更新主题中...',
             });
-            const db = wx.cloud.database({
-                env: this.data.selectedEnv.envId
-            })
             var that = this;
-            db.collection('user')
-                .doc(wx.getStorageSync("_id"))
-                .update({
+            wx.cloud.callFunction({
+                name: 'quickstartFunctions',
+                config: {
+                    env: this.data.selectedEnv.envId
+                },
+                data: {
+                    type: 'updateCollection',
                     data: {
-                        theme: e.detail.value
-                    },
-                    success: (res) => {
-                        app.globalData.theme = e.detail.value;
-                        that.setData({
-                            theme: e.detail.value
-                        });
-                        wx.hideLoading();
-                        let text = ['首页','任务','兑换','我的']
-                        if (['white','melon'].includes(e.detail.value)) {
-                            for (let i=0;i<4;i++) {
-                                wx.setTabBarItem({
-                                    index: i,
-                                    text: text[i],
-                                    iconPath: '/image/icon/tabbar-'+i+'.png',
-                                    selectedIconPath: '/image/icon/tabbar-'+i+'-selected.png',
-                                })
-                            }
-                        } else {
-                            for (let i=0;i<4;i++) {
-                                wx.setTabBarItem({
-                                    index: i,
-                                    text: text[i],
-                                    iconPath: '/image/theme/'+e.detail.value+'/tabbar-'+i+'.png',
-                                    selectedIconPath: '/image/theme/'+e.detail.value+'/tabbar-'+i+'-selected.png'
-                                })
+                        id: wx.getStorageSync("_id"),
+                        collection_name: 'user',
+                        update_objects: {
+                            theme: {
+                                type: 'set',
+                                value: e.detail.value
                             }
                         }
-                    },
-                    fail: (res) => {
-                        console.error(res);
-                        wx.hideLoading();
                     }
-                })
+                }
+            }).then((resp) => {
+                app.globalData.theme = e.detail.value;
+                that.setData({
+                    theme: e.detail.value
+                });
+                wx.hideLoading();
+                let text = ['首页', '任务', '兑换', '我的']
+                if (['white', 'melon'].includes(e.detail.value)) {
+                    for (let i = 0; i < 4; i++) {
+                        wx.setTabBarItem({
+                            index: i,
+                            text: text[i],
+                            iconPath: '/image/icon/tabbar-' + i + '.png',
+                            selectedIconPath: '/image/icon/tabbar-' + i + '-selected.png',
+                        })
+                    }
+                } else {
+                    for (let i = 0; i < 4; i++) {
+                        wx.setTabBarItem({
+                            index: i,
+                            text: text[i],
+                            iconPath: '/image/theme/' + e.detail.value + '/tabbar-' + i + '.png',
+                            selectedIconPath: '/image/theme/' + e.detail.value + '/tabbar-' + i + '-selected.png'
+                        })
+                    }
+                }
+            }).catch((e) => {
+                console.error(e);
+                wx.hideLoading();
+            });
         }
     },
     /**

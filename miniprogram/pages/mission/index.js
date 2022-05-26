@@ -112,8 +112,7 @@ Page({
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function () {
-    },
+    onReady: function () {},
 
     submit(data) {
         wx.showLoading({
@@ -140,70 +139,111 @@ Page({
                         curCombo = 1;
                     }
                     data.detail.item_score = parseInt(data.detail.item_content);
-                    db.collection('user')
-                        .doc(wx.getStorageSync("_id"))
-                        .update({
+                    wx.cloud.callFunction({
+                        name: 'quickstartFunctions',
+                        config: {
+                            env: that.data.selectedEnv.envId
+                        },
+                        data: {
+                            type: 'updateCollection',
                             data: {
-                                [data.detail.item_type + '_mission']: {
-                                    [data.detail.item_id]: true
-                                },
-                                user_integral: _.inc(data.detail.item_score),
-                                ['achievement_data.total_integral']: _.inc(data.detail.item_score),
-                                ['achievement_data.last_mission']: new Date() / 1,
-                                ['achievement_data.cur_mission_combo']: curCombo,
-                                ['achievement_data.max_mission_combo']: Math.max(curCombo, res.data.achievement_data.max_mission_combo)
-                            },
-                            success: (resp) => {
-                                for (var idx in that.data.records) {
-                                    if (that.data.records[idx]._id == data.detail.item_id) {
-                                        that.setData({
-                                            ['records[' + idx + '].is_finished']: true
-                                        });
-                                        wx.showModal({
-                                            title: '提示',
-                                            content: '完成了 "' + data.detail.item_name + '" ！',
-                                            showCancel: false
-                                        });
-                                        break;
+                                id: wx.getStorageSync("_id"),
+                                collection_name: 'user',
+                                update_objects: {
+                                    [data.detail.item_type + '_mission.' + data.detail.item_id]: {
+                                        type: 'set',
+                                        value: true
+                                    },
+                                    user_integral: {
+                                        type: 'add',
+                                        value: data.detail.item_score
+                                    },
+                                    ['achievement_data.total_integral']: {
+                                        type: 'add',
+                                        value: data.detail.item_score
+                                    },
+                                    ['achievement_data.last_mission']: {
+                                        type: 'set',
+                                        value: new Date() / 1
+                                    },
+                                    ['achievement_data.cur_mission_combo']: {
+                                        type: 'set',
+                                        value: curCombo
+                                    },
+                                    ['achievement_data.max_mission_combo']: {
+                                        type: 'set',
+                                        value: Math.max(curCombo, res.data.achievement_data.max_mission_combo)
                                     }
                                 }
-                                var newScore = wx.getStorageSync("integral") + data.detail.item_score;
-                                that.setData({
-                                    userIntegral: newScore
-                                });
-                                wx.setStorageSync('integral', newScore);
-                                wx.hideLoading();
-
-                                // 成就检测
-                                var achievements = wx.getStorageSync('achievements');
-                                for (var i in achievements) {
-                                    if (achievements[i].type == "score" && res.data.achievement_data.total_integral < achievements[i].num && res.data.achievement_data.total_integral + data.detail.item_score >= achievements[i].num ||
-                                        achievements[i].type == "day" && res.data.achievement_data.cur_mission_combo < achievements[i].num && curCombo >= achievements[i].num) {
-                                        var data_copy = achievements[i];
-                                        db.collection('user')
-                                            .doc(wx.getStorageSync("_id"))
-                                            .update({
-                                                data: {
-                                                    achievement: db.command.push([data_copy._id]),
-                                                },
-                                                success: (res) => {
-                                                    wx.showModal({
-                                                        title: '╰(*°▽°*)╯恭喜！',
-                                                        content: wx.getStorageSync("user_name") + ' 达成 "' + data_copy.title + '"（' + data_copy.desc + '），去成就看下有什么奖励叭！',
-                                                        showCancel: false
-                                                    });
-                                                },
-                                                fail: (res) => {
-                                                    console.error(res);
-                                                }
-                                            });
-                                    }
-                                }
-                            },
-                            fail: (resp) => {
-                                console.log(resp);
                             }
-                        })
+                        }
+                    }).then((resp) => {
+                        if (resp.result.stats.updated != 1) {
+                            wx.showModal({
+                                title: '错误',
+                                content: '数据库更新失败',
+                                showCancel: false
+                            });
+                            return
+                        }
+                        for (var idx in that.data.records) {
+                            if (that.data.records[idx]._id == data.detail.item_id) {
+                                that.setData({
+                                    ['records[' + idx + '].is_finished']: true
+                                });
+                                wx.showModal({
+                                    title: '提示',
+                                    content: '完成了 "' + data.detail.item_name + '" ！',
+                                    showCancel: false
+                                });
+                                break;
+                            }
+                        }
+                        var newScore = wx.getStorageSync("integral") + data.detail.item_score;
+                        that.setData({
+                            userIntegral: newScore
+                        });
+                        wx.setStorageSync('integral', newScore);
+                        wx.hideLoading();
+
+                        // 成就检测
+                        var achievements = wx.getStorageSync('achievements');
+                        for (var i in achievements) {
+                            if (achievements[i].type == "score" && res.data.achievement_data.total_integral < achievements[i].num && res.data.achievement_data.total_integral + data.detail.item_score >= achievements[i].num ||
+                                achievements[i].type == "day" && res.data.achievement_data.cur_mission_combo < achievements[i].num && curCombo >= achievements[i].num) {
+                                var data_copy = achievements[i];
+                                wx.cloud.callFunction({
+                                    name: 'quickstartFunctions',
+                                    config: {
+                                        env: that.data.selectedEnv.envId
+                                    },
+                                    data: {
+                                        type: 'updateCollection',
+                                        data: {
+                                            id: wx.getStorageSync("_id"),
+                                            collection_name: 'user',
+                                            update_objects: {
+                                                achievement: {
+                                                    type: 'push',
+                                                    value: data_copy._id
+                                                }
+                                            }
+                                        }
+                                    }
+                                }).then((resp) => {
+                                    wx.showModal({
+                                        title: '╰(*°▽°*)╯恭喜！',
+                                        content: wx.getStorageSync("user_name") + ' 达成 "' + data_copy.title + '"（' + data_copy.desc + '），去成就看下有什么奖励叭！',
+                                        showCancel: false
+                                    });
+                                }).catch((e) => {
+                                    console.error(e);
+                                });
+                            }
+                        }
+                    }).catch((e) => {
+                        console.error(e);
+                    });
                 }
             })
     },

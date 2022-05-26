@@ -3,6 +3,7 @@ const getUserByOpenId = require('./getUserByOpenId/index');
 const getCollection = require('./getCollection/index');
 const getBag = require('./getBag/index');
 const addUser = require('./addUser/index');
+const updateCollection = require('./updateCollection/index');
 
 
 // 云函数入口函数
@@ -20,5 +21,7 @@ exports.main = async (event, context) => {
             return await getBag.main(event, context);
         case 'addUser':
             return await addUser.main(event, context);
+        case 'updateCollection':
+            return await updateCollection.main(event, context);
     }
 };

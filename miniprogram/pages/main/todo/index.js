@@ -1,10 +1,15 @@
 // pages/main/todo/index.js
+const {
+    envList
+} = require('../../../envList.js');
+
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
+        selectedEnv: envList[0],
         theme: 'white',
         records: [],
         slideButtonSend: [{
@@ -71,62 +76,83 @@ Page({
                 return item.exacttime != e.currentTarget.dataset.time
             }
         );
-        const db = wx.cloud.database();
-        const user = db.collection('user');
-        user.doc(wx.getStorageSync("_id"))
-            .update({
+        wx.cloud.callFunction({
+            name: 'quickstartFunctions',
+            config: {
+                env: this.data.selectedEnv.envId
+            },
+            data: {
+                type: 'updateCollection',
                 data: {
-                    todo: new_array
-                },
-                success: function (res) {
-                    that.setData({
-                        records: new_array
-                    })
-                    wx.showModal({
-                        title: '提示',
-                        content: (res.stats.updated == 0 ? '未成功删除 ' : '成功删除 ') + e.currentTarget.dataset.content,
-                        showCancel: false
-                    });
+                    id: wx.getStorageSync("_id"),
+                    collection_name: 'user',
+                    update_objects: {
+                        todo: {
+                            type: 'set',
+                            value: new_array
+                        }
+                    }
                 }
+            }
+        }).then((resp) => {
+            that.setData({
+                records: new_array
             })
+            wx.showModal({
+                title: '提示',
+                content: (resp.result.stats.updated == 0 ? '未成功删除 ' : '成功删除 ') + e.currentTarget.dataset.content,
+                showCancel: false
+            });
+        }).catch((e) => {
+            console.error(e);
+        });
     },
 
     addTodo(e) {
         var that = this;
         let cur = new Date() / 1;
-        const db = wx.cloud.database();
-        const user = db.collection('user');
-        user.doc(wx.getStorageSync("_id"))
-            .update({
+        wx.cloud.callFunction({
+            name: 'quickstartFunctions',
+            config: {
+                env: this.data.selectedEnv.envId
+            },
+            data: {
+                type: 'updateCollection',
                 data: {
-                    todo: db.command.push([{
-                        content: this.data.inputValue,
-                        exacttime: cur
-                    }])
-                },
-                success: function (res) {
-                    let new_array = that.data.records;
-                    new_array.push({
-                        content: that.data.inputValue,
-                        exacttime: cur
-                    })
-                    wx.showModal({
-                        title: '提示',
-                        content: (res.stats.updated == 0 ? '未成功添加 ' : '成功添加 ') + that.data.inputValue,
-                        showCancel: false,
-                        success: (res) => {
-                            that.setData({
-                                records: new_array,
-                                addtext: '',
-                                inputValue: ''
-                            })
-                        },
-                    });
-                },
-                fail: function (res) {
-                    console.log(res);
+                    id: wx.getStorageSync("_id"),
+                    collection_name: 'user',
+                    update_objects: {
+                        todo: {
+                            type: 'push',
+                            value: {
+                                content: this.data.inputValue,
+                                exacttime: cur
+                            }
+                        }
+                    }
                 }
+            }
+        }).then((resp) => {
+            let new_array = that.data.records;
+            new_array.push({
+                content: that.data.inputValue,
+                exacttime: cur
             })
+            wx.showModal({
+                title: '提示',
+                content: (resp.result.stats.updated == 0 ? '未成功添加 ' : '成功添加 ') + that.data.inputValue,
+                showCancel: false,
+                success: (res) => {
+                    that.setData({
+                        records: new_array,
+                        addtext: '',
+                        inputValue: ''
+                    })
+                },
+            });
+        }).catch((e) => {
+            console.error(e);
+        });
     },
 
     bindInput(e) {
