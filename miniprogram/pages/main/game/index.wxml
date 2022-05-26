@@ -1,18 +1,21 @@
 <!--pages/game/index.wxml-->
-<view class="container" data-weui-theme="{{theme}}">
-    <view class="title">
-        当前积分
+<block>
+    <image class="bg-image" mode="widthFix" src="cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/background/bg-{{theme}}.jpg"></image>
+    <view class="container" data-weui-theme="{{theme}}">
+        <view class="title">
+            当前积分
+        </view>
+        <view class="title">
+            {{userIntegral || 0}}
+        </view>
+        <view class="title">
+            游戏规则
+        </view>
+        <text class="main_text">
+            1.抽奖参与门槛为20🐔分，每天限8次\n2.连续2次扣分时获得防御卡，下一次如果失败将免除扣分\n3.连续2次加分时会获得连击，立刻追加{{comboScore||0}}分
+        </text>
+        <button class="btn" type="primary" bindtap="gamble" data-add-percent="0.1" data-minus-percent="0.1"> <text>增加10%或\n减少10%</text> </button>
+        <button class="btn" type="primary" bindtap="gamble" data-add-percent="0.2" data-minus-percent="0.18"> <text>增加20%或\n减少18%</text> </button>
+        <button class="btn" type="primary" bindtap="gamble" data-add-percent="0.3" data-minus-percent="0.25"> <text>增加30%或\n减少25%</text> </button>
     </view>
-    <view class="title">
-        {{userIntegral || 0}}
-    </view>
-    <view class="title">
-        游戏规则
-    </view>
-    <text class="main_text">
-        1.抽奖参与门槛为20🐔分，每天限8次\n2.连续2次扣分时获得防御卡，下一次如果失败将免除扣分\n3.连续2次加分时会获得连击，立刻追加{{comboScore||0}}分
-    </text>
-    <button class="btn" type="primary" bindtap="gamble" data-add-percent="0.1" data-minus-percent="0.1"> <text>增加10%或\n减少10%</text> </button>
-    <button class="btn" type="primary" bindtap="gamble" data-add-percent="0.2" data-minus-percent="0.18"> <text>增加20%或\n减少18%</text> </button>
-    <button class="btn" type="primary" bindtap="gamble" data-add-percent="0.3" data-minus-percent="0.25"> <text>增加30%或\n减少25%</text> </button>
-</view>
+</block>

@@ -2,6 +2,7 @@
 const {
     envList
 } = require('../../../envList.js');
+const app = getApp();
 
 Page({
 
@@ -9,7 +10,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        theme: 'light',
+        theme: 'white',
         selectedEnv: envList[0],
         comboScore: 5
     },
@@ -175,18 +176,6 @@ Page({
      */
     onLoad(options) {
         this.setData({
-            theme: wx.getSystemInfoSync().theme || 'light'
-        });
-        if (wx.onThemeChange) {
-            wx.onThemeChange(({
-                theme
-            }) => {
-                this.setData({
-                    theme
-                })
-            })
-        };
-        this.setData({
             userIntegral: wx.getStorageSync("integral")
         })
     },
@@ -202,7 +191,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow() {
-
+        this.setData({
+            theme: app.globalData.theme
+        });
     },
 
     /**
