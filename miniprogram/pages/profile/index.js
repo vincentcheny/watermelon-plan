@@ -89,8 +89,8 @@ Page({
                                 wx.setTabBarItem({
                                     index: i,
                                     text: text[i],
-                                    iconPath: '/image/icon/tabbar-'+i+'.svg',
-                                    selectedIconPath: '/image/icon/tabbar-'+i+'-selected.svg',
+                                    iconPath: '/image/icon/tabbar-'+i+'.png',
+                                    selectedIconPath: '/image/icon/tabbar-'+i+'-selected.png',
                                 })
                             }
                         } else {
