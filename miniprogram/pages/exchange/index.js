@@ -76,6 +76,7 @@ Page({
                                 name: data.name,
                                 content: data.score,
                                 type: data.type,
+                                comment: data.comment,
                                 is_finished: data_name[data._id] ?? false
                             })
                         };
