@@ -1,13 +1,13 @@
 <!--index.wxml-->
 <block>
     <image class="bg-image" mode="widthFix" src="cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/background/bg-{{theme}}.jpg"></image>
-    <view class="container" data-weui-theme="{{theme}}">
-        <view class="title" style="display: flex;flex-direction: row;align-items: center;">
+    <view class="container">
+        <view class="title panel theme-{{theme}}">
             <image style="width: 100rpx;height: 100rpx;border-radius: 100rpx; margin-right: 40rpx;" src="{{userAvatar}}"></image>
             {{userName}}の积分：{{userIntegral || 0}}
         </view>
         <view class="elementBox">
-            <view wx:for="{{homeElement}}" wx:for-item="typeItem" wx:key="index" class="element">
+            <view wx:for="{{homeElement}}" wx:for-item="typeItem" wx:key="index" class="element theme-{{theme}}" style="border-style: solid;border-radius: 50rpx;">
                 <view bindtap="jumpPage" data-page="{{'main/'+index}}">
                     <image class="element_img" mode="aspectFit" src="{{typeItem.icon}}"></image>
                     <text>\n</text>

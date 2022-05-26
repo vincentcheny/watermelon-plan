@@ -1,20 +1,31 @@
 /* pages/main/index.wxss */
 
 .elementBox {
-    width: 90%;
+    width: 100%;
     display: grid;
     justify-content: center;
-    grid-template-columns: repeat(auto-fill, 33%);
+    grid-template-columns: repeat(auto-fill, 30%);
 }
 
 .element {
     font-size: 36rpx;
     text-align: center;
     margin-top: 50rpx;
+    padding-top: 20rpx;
+    margin-right: 20rpx;
 }
 
 .element_img {
     width: 80%;
     height: 80px;
-    border-radius: 60rpx;
+}
+
+.panel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding:  20rpx;
+    border-radius: 30rpx;
+    border-style: solid;
+    background-color: rgba(255,255,255,0.5);
 }
