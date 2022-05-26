@@ -3,7 +3,7 @@
     <image class="bg-image" mode="widthFix" src="cloud://cloud1-3gno89qrd4ac7e40.636c-cloud1-3gno89qrd4ac7e40-1310793785/background/bg-{{theme}}.jpg"></image>
     <view class="container">
         <view class="title panel theme-{{theme}}">
-            <image style="width: 100rpx;height: 100rpx;border-radius: 100rpx; margin-right: 40rpx;" src="{{userAvatar}}"></image>
+            <image style="width: 100rpx;height: 100rpx;border-radius: 30rpx; margin-right: 40rpx;" src="{{userAvatar}}"></image>
             {{userName}}の积分：{{userIntegral || 0}}
         </view>
         <view class="elementBox">
