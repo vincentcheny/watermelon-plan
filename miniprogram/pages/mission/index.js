@@ -70,7 +70,17 @@ Page({
                         var data_name = undefined;
                         for (var data of res.result.data) {
                             type_set.add(data.type);
-                            data_name = data.type == 'daily' ? resp.result.data[0].daily_mission : resp.result.data[0].weekly_mission
+                            switch (data.type) {
+                                case 'daily':
+                                    data_name = resp.result.data[0].daily_mission;
+                                    break;
+                                case 'weekly':
+                                    data_name = resp.result.data[0].weekly_mission;
+                                    break;
+                                case 'xothers':
+                                    data_name = resp.result.data[0].xothers_mission;
+                                    break;
+                            }
                             records.push({
                                 _id: data._id,
                                 name: data.name,
