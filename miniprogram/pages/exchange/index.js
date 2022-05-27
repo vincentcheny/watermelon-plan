@@ -29,7 +29,7 @@ Page({
         })
         this.refreshList('reward');
     },
-    
+
     refreshList(collectionName) {
         wx.showLoading({
             title: '读取任务列表',
@@ -90,8 +90,7 @@ Page({
                         this.setData({
                             type: Array.from(type_set).sort(),
                             records: records,
-                            titles: [
-                                {
+                            titles: [{
                                     daily: '每日兑换',
                                     weekly: '每周兑换',
                                     xothers: '其它兑换'
@@ -115,8 +114,8 @@ Page({
         if (wx.getStorageSync("integral") < data.detail.item_score) {
             wx.showModal({
                 title: '提示',
-                content: '积分不够哦，当前积分：'+wx.getStorageSync("integral")
-              })
+                content: '积分不够哦，当前积分：' + wx.getStorageSync("integral")
+            })
             return;
         }
         wx.showLoading({
@@ -152,7 +151,7 @@ Page({
             for (var idx in that.data.records) {
                 if (that.data.records[idx]._id == data.detail.item_id) {
                     that.setData({
-                        ['records['+idx+'].is_finished']: true
+                        ['records[' + idx + '].is_finished']: true
                     });
                     wx.showModal({
                         title: '提示',
@@ -162,7 +161,7 @@ Page({
                     break;
                 }
             }
-            var newScore = wx.getStorageSync("integral")-data.detail.item_score;
+            var newScore = wx.getStorageSync("integral") - data.detail.item_score;
             wx.setStorageSync('integral', newScore);
             that.setData({
                 userIntegral: newScore
@@ -173,12 +172,12 @@ Page({
             wx.hideLoading();
         });
         db.collection('bag')
-        .add({
-            data: {
-                reward_name: data.detail.item_name,
-                time: new Date() / 1
-            }
-        });
+            .add({
+                data: {
+                    reward_name: data.detail.item_name,
+                    time: new Date() / 1
+                }
+            });
     },
     /**
      * 生命周期函数--监听页面初次渲染完成
@@ -225,7 +224,10 @@ Page({
      * 页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function () {
-
+        this.refreshList('reward');
+        setTimeout(function () {
+            wx.stopPullDownRefresh()
+        }, 1000)
     },
 
     /**

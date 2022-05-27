@@ -2,5 +2,6 @@
     "navigationBarTitleText": "兑换商店🔀",
     "usingComponents": {
         "list": "/components/list/index"
-    }
+    },
+    "enablePullDownRefresh": true
 }

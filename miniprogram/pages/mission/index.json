@@ -2,5 +2,6 @@
     "navigationBarTitleText": "任务列表📊",
     "usingComponents": {
         "list": "/components/list/index"
-    }
+    },
+    "enablePullDownRefresh": true
 }
