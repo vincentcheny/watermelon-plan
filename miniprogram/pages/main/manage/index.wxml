@@ -51,5 +51,5 @@
             <view class="divider"></view>
         </view>
     </view>
-
+    <view wx:for="{{cp_message}}" wx:key="*this">{{item}}</view>
 </view>
