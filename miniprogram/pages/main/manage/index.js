@@ -85,7 +85,7 @@ Page({
                             });
                             if (that.data.record == undefined) {
                                 that.setData({
-                                    type: ['daily', 'weekly', 'others'],
+                                    type: ['daily', 'weekly', 'xothers'],
                                     record: record,
                                     attribute: new Array(collectionName_copy)
                                 });
