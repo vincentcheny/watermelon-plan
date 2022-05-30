@@ -2,6 +2,9 @@
 <view class="integral">🍭：{{userIntegral || 0}}</view>
 
 <view class="container" data-weui-theme="{{theme}}">
+    <view class="box">
+        <view wx:for="{{cp_message}}" wx:key="*this">{{item}}</view>
+    </view>
     <view wx:for="{{attribute}}" wx:for-item="attrItem" wx:key="*this" class="box theme-bg-white">
         <view wx:for="{{type}}" wx:for-item="typeItem" wx:key="*this">
             <view class="divider" wx:if="{{typeItem=='weekly'}}"></view>
@@ -51,5 +54,4 @@
             <view class="divider"></view>
         </view>
     </view>
-    <view wx:for="{{cp_message}}" wx:key="*this">{{item}}</view>
 </view>

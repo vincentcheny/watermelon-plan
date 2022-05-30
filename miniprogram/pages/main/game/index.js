@@ -104,12 +104,16 @@ Page({
                                     },
                                     ['achievement_data.num_200_game']: {
                                         type: 'add',
-                                        value: oldScore > 200 ? 1 : 0
+                                        value: oldScore > 2000 ? 1 : 0
                                     },
                                     ['achievement_data.num_1000_game']: {
                                         type: 'add',
-                                        value: oldScore > 1000 ? 1 : 0
+                                        value: oldScore > 5000 ? 1 : 0
                                     },
+                                    ['achievement_data.total_integral']: {
+                                        type: 'add',
+                                        value: newScore > oldScore ? (newScore - oldScore) : 0
+                                    }
                                 }
                             }
                         }

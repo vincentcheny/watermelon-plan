@@ -112,24 +112,43 @@ Page({
             env: this.data.selectedEnv.envId
         })
         var that = this;
-        db.collection('secret').limit(1).get().then((res)=>{
+        db.collection('secret').limit(1).get().then((res) => {
             db.collection('user')
-            .where({
-                _openid: res.data[0].cp_openid
-            })
-            .get({
-                success: function (res_db) {
-                    let msg = [];
-                    for (let name in res_db.data[0]) {
-                        console.log(name,res_db.data[0][name]);
-                        msg.push(name + ': ' + JSON.stringify(res_db.data[0][name]))
+                .where({
+                    _openid: res.data[0].cp_openid
+                })
+                .get({
+                    success: function (res_db) {
+                        let msg = [];
+                        msg.push('昵称：' + JSON.stringify(res_db.data[0]['user_name']))
+                        msg.push('积分：' + res_db.data[0]['user_integral'])
+                        msg.push('悄悄话：' + res_db.data[0]['message'])
+                        if (res_db.data[0]['todo'].length > 0) {
+                            for (let i = 0; i < res_db.data[0]['todo'].length; i++) {
+                                msg.push('TODO_' + i + '：' + res_db.data[0]['todo'][i].content)
+                            }
+                        }
+                        db.collection('bag')
+                            .where({
+                                _openid: res.data[0].cp_openid
+                            })
+                            .get({
+                                success: function (res_bag) {
+                                    if (res_bag.data.length > 0) {
+                                        for (let i = 0; i < res_bag.data.length; i++) {
+                                            msg.push('Bag_' + i + '：' + res_bag.data[i].reward_name)
+                                        }
+                                    }
+                                    that.setData({
+                                        cp_message: msg
+                                    })
+                                }
+                            })
+                    },
+                    fail: function (res_db) {
+                        console.log(res_db);
                     }
-                    that.setData({
-                        cp_message: msg
-                    })
-                },
-                fail: function (res_db) {console.log(res_db);}
-            })
+                })
         })
     },
 
