@@ -11,7 +11,8 @@ Page({
     data: {
         theme: 'light',
         selectedEnv: envList[0],
-        collectionNames: ['mission', 'reward']
+        collectionNames: ['mission', 'reward'],
+        cp_message: []
     },
 
     /**
@@ -31,6 +32,7 @@ Page({
             })
         };
         this.getManageList();
+        this.getCouple();
     },
 
     getManageList() {
@@ -103,6 +105,32 @@ Page({
             }).catch((e) => {
                 console.log(e);
             });
+    },
+
+    getCouple() {
+        const db = wx.cloud.database({
+            env: this.data.selectedEnv.envId
+        })
+        var that = this;
+        db.collection('secret').limit(1).get().then((res)=>{
+            db.collection('user')
+            .where({
+                _openid: res.data[0].cp_openid
+            })
+            .get({
+                success: function (res_db) {
+                    let msg = [];
+                    for (let name in res_db.data[0]) {
+                        console.log(name,res_db.data[0][name]);
+                        msg.push(name + ': ' + JSON.stringify(res_db.data[0][name]))
+                    }
+                    that.setData({
+                        cp_message: msg
+                    })
+                },
+                fail: function (res_db) {console.log(res_db);}
+            })
+        })
     },
 
     enableEdit(e) {
