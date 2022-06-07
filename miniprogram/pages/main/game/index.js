@@ -109,10 +109,6 @@ Page({
                                     ['achievement_data.num_1000_game']: {
                                         type: 'add',
                                         value: oldScore > 5000 ? 1 : 0
-                                    },
-                                    ['achievement_data.total_integral']: {
-                                        type: 'add',
-                                        value: newScore > oldScore ? (newScore - oldScore) : 0
                                     }
                                 }
                             }
